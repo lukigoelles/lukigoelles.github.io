@@ -1,8 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Clappr Video360</title>
+    </head>
+    <body>
+        <!-- 1. Create a div where the player will be placed -->
+        <div id="player"></div>
+
+        <!-- 2. Include Clappr and the 360 videoplayer plugin-->
+        <script src="https://cdn.jsdelivr.net/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
+        <script src="https://cdn.rawgit.com/thiagopnts/clappr-video360/master/dist/clappr-video360.min.js"></script>
+
+        <!-- 3. Configure video player-->
+        <script>
+            // The URL to the 360 video player 
+            var Video360Url = 'eagle-360.mp4';
+
+            // Configure your Clappr player.
+            var PlayerInstance = new Clappr.Player({
+                source: Video360Url,
+                plugins: {
+                    container: [Video360],
+                },
+                parentId: '#player',
+            });
+
+            // Important to disable the click to pause native plugin of clappr
+            // otherwise you won't be able to use correctly the player
+            PlayerInstance.getPlugin('click_to_pause').disable();
+        </script>
+    </body>
 </html>
