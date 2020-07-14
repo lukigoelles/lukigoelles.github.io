@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VR
 
 https://videojs-vr.netlify.com
@@ -270,3 +271,6 @@ This project is a conglomeration of a few amazing open source libraries.
 
 ## Support ##
 This work is sponsored by [Brightcove](https://www.brightcove.com), [HapYak](http://corp.hapyak.com/) and [StreamShark](https://streamshark.io)
+=======
+# lukigoelles.github.io
+>>>>>>> 325024d2373a6f79b739e81479818aca9541b2d1
