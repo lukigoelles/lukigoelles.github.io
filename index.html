@@ -1,34 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Clappr Video360</title>
-    </head>
-    <body>
-        <!-- 1. Create a div where the player will be placed -->
-        <div id="player"></div>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-vr Demo</title>
+   <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet">
+   <link href="../dist/videojs-vr.css" rel="stylesheet">
+</head>
+<body>
+  <video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
+    <source src="eagle-360.mp4" type="video/mp4">
+  </video>
+  <ul>
+    <li><a href="../">return to main example</a></li>
+  </ul>
+  <script src="js/video.js"></script>
+  <script src="js/videojs-vr.js"></script>
+  <script>
+    (function(window, videojs) {
+      var player = window.player = videojs('videojs-vr-player');
+      player.mediainfo = player.mediainfo || {};
+      player.mediainfo.projection = '360';
 
-        <!-- 2. Include Clappr and the 360 videoplayer plugin-->
-        <script src="https://cdn.jsdelivr.net/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
-        <script src="https://cdn.rawgit.com/thiagopnts/clappr-video360/master/dist/clappr-video360.min.js"></script>
-
-        <!-- 3. Configure video player-->
-        <script>
-            // The URL to the 360 video player 
-            var Video360Url = 'eagle-360.mp4';
-
-            // Configure your Clappr player.
-            var PlayerInstance = new Clappr.Player({
-                source: Video360Url,
-                plugins: {
-                    container: [Video360],
-                },
-                parentId: '#player',
-            });
-
-            // Important to disable the click to pause native plugin of clappr
-            // otherwise you won't be able to use correctly the player
-            PlayerInstance.getPlugin('click_to_pause').disable();
-        </script>
-    </body>
+      // AUTO is the default and looks at mediainfo
+      var vr = window.vr = player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
+    }(window, window.videojs));
+  </script>
+</body>
 </html>
