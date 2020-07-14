@@ -7,9 +7,25 @@
    <link href="videojs-vr.css" rel="stylesheet">
 </head>
 <body>
+  <!-- <video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
+    <source id="sourceVideo" src="eagle-360.mp4" type="video/mp4">
+  </video> -->
   <video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
-    <source src="TEST.webm" type="video/webm">
-  </video>
+    <source id= "source" src="" type="">
+    </video>
+
+  <script>
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      var videoName = "eagle-360.mp4";
+      var v = document.getElementById("source");
+      v.setAttribute("src", videoName);
+    } else {
+      var videoName = "TEST.webm";
+      var v = document.getElementById("source");
+      v.setAttribute("src", videoName);
+    }
+  </script>
+
   <ul>
     <li><a href="../">return to main example</a></li>
   </ul>
@@ -17,14 +33,26 @@
   <script src="js/videojs-vr.js"></script>
   <script src="js/omnitone.js"></script>
   <script>
-    (function(window, videojs) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+      (function(window, videojs) {
+      var player = window.player = videojs('videojs-vr-player');
+      player.mediainfo = player.mediainfo || {};
+      player.mediainfo.projection = '360';
+
+      // AUTO is the default and looks at mediainfo
+      var vr = window.vr = player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
+    }(window, window.videojs));
+    }
+    else {
+      (function(window, videojs) {
       var player = window.player = videojs('videojs-vr-player');
       player.mediainfo = player.mediainfo || {};
       player.mediainfo.projection = '360';
 
       // AUTO is the default and looks at mediainfo
       var vr = window.vr = player.vr({projection: 'AUTO', debug: true, forceCardboard: false, omnitone: Omnitone, omnitoneOptions: {}});
-    }(window, window.videojs));
+    }(window, window.videojs)); 
+    }
   </script>
 </body>
 </html>
