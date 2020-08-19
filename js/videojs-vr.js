@@ -3424,7 +3424,7 @@
   var DefaultConfig = {
     ADDITIONAL_VIEWERS: [],
     DEFAULT_VIEWER: '',
-    PROVIDE_MOBILE_VRDISPLAY: true,
+    PROVIDE_MOBILE_VRDISPLAY: false,
     GET_VR_DISPLAYS_TIMEOUT: 1000,
     MOBILE_WAKE_LOCK: true,
     DEBUG: false,
