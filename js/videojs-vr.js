@@ -52673,9 +52673,9 @@
       } // remove the cardboard button
 
 
-      if (this.player_.getChild('CardboardButton')) {
+      //if (this.player_.getChild('CardboardButton')) {
         this.player_.controlBar.removeChild('CardboardButton');
-      } // show the fullscreen again
+      //} // show the fullscreen again
 
 
       if (videojs.browser.IS_IOS && this.player_.controlBar && this.player_.controlBar.fullscreenToggle) {
