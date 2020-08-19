@@ -2564,11 +2564,11 @@
   };
   RotateInstructions.prototype.update = function () {
     this.disableShowTemporarily();
-    // if (!isLandscapeMode() && isMobile()) {
-    //   this.show();
-    // } else {
+    if (!isLandscapeMode() && isMobile()) {
+      this.show();
+    } else {
       this.hide();
-    // }
+    }
   };
   RotateInstructions.prototype.loadIcon_ = function () {
     this.icon = base64('image/svg+xml', rotateInstructionsAsset);
@@ -2887,9 +2887,9 @@
     this.fullscreenEventTarget_ = null;
     this.fullscreenChangeHandler_ = null;
     this.fullscreenErrorHandler_ = null;
-    // if (USE_WAKELOCK && isMobile()) {
-    //   this.wakelock_ = new NoSleep$1();
-    // }
+    if (USE_WAKELOCK && isMobile()) {
+      this.wakelock_ = new NoSleep$1();
+    }
   }
   VRDisplay.prototype.getFrameData = function (frameData) {
     return frameDataFromPose(frameData, this._getPose(), this);
@@ -3333,11 +3333,11 @@
       }.bind(this));
     }
     if (this.rotateInstructions_) {
-      // if (isLandscapeMode() && isMobile()) {
-      //   this.rotateInstructions_.showTemporarily(3000, this.layer_.source.parentElement);
-      // } else {
+      if (isLandscapeMode() && isMobile()) {
+        this.rotateInstructions_.showTemporarily(3000, this.layer_.source.parentElement);
+      } else {
         this.rotateInstructions_.update();
-      // }
+      }
     }
     this.orientationHandler = this.onOrientationChange_.bind(this);
     window.addEventListener('orientationchange', this.orientationHandler);
@@ -3448,37 +3448,37 @@
     this.native.getVRDisplays = navigator.getVRDisplays;
     this.native.VRFrameData = window.VRFrameData;
     this.native.VRDisplay = window.VRDisplay;
-    // if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
-    //   this.enable();
-    //   this.getVRDisplays().then(function (displays) {
-    //     if (displays && displays[0] && displays[0].fireVRDisplayConnect_) {
-    //       displays[0].fireVRDisplayConnect_();
-    //     }
-    //   });
-    // }
+    if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
+      this.enable();
+      this.getVRDisplays().then(function (displays) {
+        if (displays && displays[0] && displays[0].fireVRDisplayConnect_) {
+          displays[0].fireVRDisplayConnect_();
+        }
+      });
+    }
   }
   WebVRPolyfill.prototype.getPolyfillDisplays = function () {
     if (this._polyfillDisplaysPopulated) {
       return this.polyfillDisplays;
     }
-    // if (isMobile()) {
-    //   var vrDisplay = new CardboardVRDisplay({
-    //     ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
-    //     DEFAULT_VIEWER: this.config.DEFAULT_VIEWER,
-    //     MOBILE_WAKE_LOCK: this.config.MOBILE_WAKE_LOCK,
-    //     DEBUG: this.config.DEBUG,
-    //     DPDB_URL: this.config.DPDB_URL,
-    //     CARDBOARD_UI_DISABLED: this.config.CARDBOARD_UI_DISABLED,
-    //     K_FILTER: this.config.K_FILTER,
-    //     PREDICTION_TIME_S: this.config.PREDICTION_TIME_S,
-    //     TOUCH_PANNER_DISABLED: this.config.TOUCH_PANNER_DISABLED,
-    //     ROTATE_INSTRUCTIONS_DISABLED: this.config.ROTATE_INSTRUCTIONS_DISABLED,
-    //     YAW_ONLY: this.config.YAW_ONLY,
-    //     BUFFER_SCALE: this.config.BUFFER_SCALE,
-    //     DIRTY_SUBMIT_FRAME_BINDINGS: this.config.DIRTY_SUBMIT_FRAME_BINDINGS
-    //   });
-    //   this.polyfillDisplays.push(vrDisplay);
-    // }
+    if (isMobile()) {
+      var vrDisplay = new CardboardVRDisplay({
+        ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
+        DEFAULT_VIEWER: this.config.DEFAULT_VIEWER,
+        MOBILE_WAKE_LOCK: this.config.MOBILE_WAKE_LOCK,
+        DEBUG: this.config.DEBUG,
+        DPDB_URL: this.config.DPDB_URL,
+        CARDBOARD_UI_DISABLED: this.config.CARDBOARD_UI_DISABLED,
+        K_FILTER: this.config.K_FILTER,
+        PREDICTION_TIME_S: this.config.PREDICTION_TIME_S,
+        TOUCH_PANNER_DISABLED: this.config.TOUCH_PANNER_DISABLED,
+        ROTATE_INSTRUCTIONS_DISABLED: this.config.ROTATE_INSTRUCTIONS_DISABLED,
+        YAW_ONLY: this.config.YAW_ONLY,
+        BUFFER_SCALE: this.config.BUFFER_SCALE,
+        DIRTY_SUBMIT_FRAME_BINDINGS: this.config.DIRTY_SUBMIT_FRAME_BINDINGS
+      });
+      this.polyfillDisplays.push(vrDisplay);
+    }
     this._polyfillDisplaysPopulated = true;
     return this.polyfillDisplays;
   };
