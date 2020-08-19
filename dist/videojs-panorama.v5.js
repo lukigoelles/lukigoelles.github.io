@@ -268,10 +268,10 @@ function addPlayer(video, hasAudio) {
 			muted: true,
 			paused: true,
 			pause: function () {
-				player.driver.paused = true;
+                player.driver.paused = true;
 			},
 			play: function () {
-				player.driver.paused = false;
+                player.driver.paused = false;
 				// media automatically goes to 0 if .play() is called when it's done
 				if (isPlayerEnded(player)) {
 					setTime(video, 0);
@@ -857,6 +857,7 @@ var Canvas = function Canvas(baseComponent, THREE) {
             this.camera.target.y = 500 * Math.cos(this.phi);
             this.camera.target.z = 500 * Math.sin(this.phi) * Math.sin(this.theta);
             this.camera.lookAt(this.camera.target);
+            //console.log(this.theta);
 
             if (!this.VRMode) {
                 this.renderer.render(this.scene, this.camera);

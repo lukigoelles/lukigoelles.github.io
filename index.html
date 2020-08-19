@@ -15,7 +15,8 @@
     <!-- Common -->
     <link href="dist/videojs-panorama.min.css" rel="stylesheet">
     <!-- Video.js 5 -->
-    <script src="dist/videojs-panorama.v5.min.js"></script>
+    <script src="dist/videojs-panorama.v5.js"></script>
+    <script src="dist/audio.js"></script>
     <style>
       .player_wrapper{
         position: relative;
@@ -90,9 +91,9 @@
           autoMobileOrientation: true,
           initFov: 100,
           NoticeMessage: (isMobile())? "please move your phone" : "please use your mouse drag and drop the video",
-          callback: function () {
-            if(!isMobile()) player.play();
-          }
+        //   callback: function () {
+        //     if(!isMobile()) player.play();
+        //   }
         });
       }(window, window.videojs));
     </script>
