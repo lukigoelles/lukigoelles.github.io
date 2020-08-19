@@ -3448,20 +3448,19 @@
     this.native.getVRDisplays = navigator.getVRDisplays;
     this.native.VRFrameData = window.VRFrameData;
     this.native.VRDisplay = window.VRDisplay;
-    if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
-      this.enable();
-      this.getVRDisplays().then(function (displays) {
-        if (displays && displays[0] && displays[0].fireVRDisplayConnect_) {
-          displays[0].fireVRDisplayConnect_();
-        }
-      });
-    }
+    // if (!this.hasNative || this.config.PROVIDE_MOBILE_VRDISPLAY && isMobile()) {
+    //   this.enable();
+    //   this.getVRDisplays().then(function (displays) {
+    //     if (displays && displays[0] && displays[0].fireVRDisplayConnect_) {
+    //       displays[0].fireVRDisplayConnect_();
+    //     }
+    //   });
+    // }
   }
   WebVRPolyfill.prototype.getPolyfillDisplays = function () {
     if (this._polyfillDisplaysPopulated) {
       return this.polyfillDisplays;
     }
-    console.log(isMobile());
     if (isMobile()) {
       var vrDisplay = new CardboardVRDisplay({
         ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
