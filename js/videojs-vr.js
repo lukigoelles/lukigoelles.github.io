@@ -3461,24 +3461,25 @@
     if (this._polyfillDisplaysPopulated) {
       return this.polyfillDisplays;
     }
-    // if (isMobile()) {
-    //   var vrDisplay = new CardboardVRDisplay({
-    //     ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
-    //     DEFAULT_VIEWER: this.config.DEFAULT_VIEWER,
-    //     MOBILE_WAKE_LOCK: this.config.MOBILE_WAKE_LOCK,
-    //     DEBUG: this.config.DEBUG,
-    //     DPDB_URL: this.config.DPDB_URL,
-    //     CARDBOARD_UI_DISABLED: this.config.CARDBOARD_UI_DISABLED,
-    //     K_FILTER: this.config.K_FILTER,
-    //     PREDICTION_TIME_S: this.config.PREDICTION_TIME_S,
-    //     TOUCH_PANNER_DISABLED: this.config.TOUCH_PANNER_DISABLED,
-    //     ROTATE_INSTRUCTIONS_DISABLED: this.config.ROTATE_INSTRUCTIONS_DISABLED,
-    //     YAW_ONLY: this.config.YAW_ONLY,
-    //     BUFFER_SCALE: this.config.BUFFER_SCALE,
-    //     DIRTY_SUBMIT_FRAME_BINDINGS: this.config.DIRTY_SUBMIT_FRAME_BINDINGS
-    //   });
-    //   this.polyfillDisplays.push(vrDisplay);
-    // }
+    console.log(isMobile());
+    if (isMobile()) {
+      var vrDisplay = new CardboardVRDisplay({
+        ADDITIONAL_VIEWERS: this.config.ADDITIONAL_VIEWERS,
+        DEFAULT_VIEWER: this.config.DEFAULT_VIEWER,
+        MOBILE_WAKE_LOCK: this.config.MOBILE_WAKE_LOCK,
+        DEBUG: this.config.DEBUG,
+        DPDB_URL: this.config.DPDB_URL,
+        CARDBOARD_UI_DISABLED: this.config.CARDBOARD_UI_DISABLED,
+        K_FILTER: this.config.K_FILTER,
+        PREDICTION_TIME_S: this.config.PREDICTION_TIME_S,
+        TOUCH_PANNER_DISABLED: this.config.TOUCH_PANNER_DISABLED,
+        ROTATE_INSTRUCTIONS_DISABLED: this.config.ROTATE_INSTRUCTIONS_DISABLED,
+        YAW_ONLY: this.config.YAW_ONLY,
+        BUFFER_SCALE: this.config.BUFFER_SCALE,
+        DIRTY_SUBMIT_FRAME_BINDINGS: this.config.DIRTY_SUBMIT_FRAME_BINDINGS
+      });
+      this.polyfillDisplays.push(vrDisplay);
+    }
     this._polyfillDisplaysPopulated = true;
     return this.polyfillDisplays;
   };
