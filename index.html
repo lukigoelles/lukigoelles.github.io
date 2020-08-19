@@ -1,58 +1,57 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>videojs-vr Demo</title>
-   <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet">
-   <link href="videojs-vr.css" rel="stylesheet">
-</head>
-<body>
-  <!-- <video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
-    <source id="sourceVideo" src="eagle-360.mp4" type="video/mp4">
-  </video> -->
-  <video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
-    <source id= "source" src="" type="">
-    </video>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en"> 
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+        <title>Title Goes Here</title> 
+    </head> 
+    <body> 
 
-  <script>
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      var videoName = "eagle-360.mp4";
-      var v = document.getElementById("source");
-      v.setAttribute("src", videoName);
-    } else {
-      var videoName = "TEST.webm";
-      var v = document.getElementById("source");
-      v.setAttribute("src", videoName);
-    }
-  </script>
+        <script type="text/javascript" src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+<script type="text/javascript" src="https://cdn.bitmovin.com/analytics/web/beta/2/bitmovinanalytics.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bitmovin.com/player/web/8/bitmovinplayer-ui.css">
 
-  <ul>
-    <li><a href="../">return to main example</a></li>
-  </ul>
-  <script src="js/video.js"></script>
-  <script src="js/videojs-vr.js"></script>
-  <script src="js/omnitone.js"></script>
-  <script>
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-      (function(window, videojs) {
-      var player = window.player = videojs('videojs-vr-player');
-      player.mediainfo = player.mediainfo || {};
-      player.mediainfo.projection = '360';
 
-      // AUTO is the default and looks at mediainfo
-      var vr = window.vr = player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
-    }(window, window.videojs));
-    }
-    else {
-      (function(window, videojs) {
-      var player = window.player = videojs('videojs-vr-player');
-      player.mediainfo = player.mediainfo || {};
-      player.mediainfo.projection = '360';
+<div class="vr-demo">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="description">
+                <p>This demo shows the Bitmovin Player displaying a 360° video with VR. The controls include 360° – 2D,
+                    3D, 2D stereo and 3D stereo, as well as resolution settings.</p>
+            </div>
+        </div>
+    </div>
 
-      // AUTO is the default and looks at mediainfo
-      var vr = window.vr = player.vr({projection: 'AUTO', debug: true, forceCardboard: false, omnitone: Omnitone, omnitoneOptions: {}});
-    }(window, window.videojs)); 
-    }
-  </script>
-</body>
-</html>
+    <div class="row">
+        <div class="col-md-9">
+            <div id="player" class="phone-frame">
+                <div id="player-container"></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 input-hint">
+                <p>Control the view by dragging your mouse across the player or using your keyboard:</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6 code-column">
+            <script type="text/javascript" src="./js/script.js"></script>
+        </div>
+        <div class="col-md-6 info-column">
+            <h2 class="description-header">HTML5 VR and 360° Adaptive Video Streaming</h2>
+            <p>The Bitmovin adaptive <a href="https://bitmovin.com/html5-player/">HTML5 video player</a> is the ideal
+                solution for
+                360° and VR playback for a number of reasons. If you are developing a 360° app or platform, then you are
+                probably already
+                aware of the challenges involved in streaming immersive video due to the extra file size. This makes the
+                quality of your adaption logic of paramount importance. The patented technology of the Bitmovin Player
+                puts it a few steps ahead of its nearest competitors.</p>
+            <p>For more information about VR Playback head over to our
+                <a href="https://developer.bitmovin.com/hc/en-us/articles/115001514354-How-to-Setup-VR-and-360-Video-Playback">tutorial
+                    section</a>.</p>
+        </div>
+    </div>
+</div>
+    </body> 
+</html> 
