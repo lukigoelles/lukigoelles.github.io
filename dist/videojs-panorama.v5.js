@@ -1,3 +1,5 @@
+var THETA = 0;
+var PHI = 0;
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /*! npm.im/intervalometer */
 'use strict';
@@ -857,6 +859,8 @@ var Canvas = function Canvas(baseComponent, THREE) {
             this.camera.target.y = 500 * Math.cos(this.phi);
             this.camera.target.z = 500 * Math.sin(this.phi) * Math.sin(this.theta);
             this.camera.lookAt(this.camera.target);
+            THETA = this.theta;
+            PHI = this.phi;
             //console.log(this.theta);
 
             if (!this.VRMode) {
@@ -1508,8 +1512,8 @@ var defaults = {
     //A float value back to center when mouse out the canvas. The higher, the faster.
     returnStepLat: 0.5,
     returnStepLon: 2,
-    backToVerticalCenter: !runOnMobile,
-    backToHorizonCenter: !runOnMobile,
+    backToVerticalCenter: false,
+    backToHorizonCenter: false,
     clickToToggle: false,
 
     //limit viewable zoom
