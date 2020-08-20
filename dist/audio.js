@@ -21,7 +21,7 @@ this.sourceNode = this.context.createMediaElementSource(this.audioElement);
 
 this.audioPlayer = dashjs.MediaPlayer().create();
 this.audioPlayer.initialize(this.audioElement);
-this.audioPlayer.setAutoPlay(true);
+this.audioPlayer.setAutoPlay(false);
 this.audioPlayer.attachSource("./assets/audio2.mpd");
 let scope = this;
 
