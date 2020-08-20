@@ -69,8 +69,8 @@ function isMobile() {
     var height = videoElement.offsetHeight;
     player.width(width), player.height(height);
     player.muted(false);
-    video.preload = 'auto';
-    video.autoload = true;
+    player.preload = 'auto';
+    player.autoload = true;
     player.panorama({
         clickToToggle: (!isMobile()),
         clickAndDrag: true,
