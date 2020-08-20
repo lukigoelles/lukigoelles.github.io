@@ -8,6 +8,7 @@ const SPATIALIZATION_UPDATE_MS = 25;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 this.context = new AudioContext;
 console.log(this.context);
+var context = this.context;
 
 //this.playbackEventHandler = new PlaybackEventHandler(this.context);
 
@@ -93,3 +94,9 @@ setInterval(function() {
     rotator.updateRotMtx();
     
 }, SPATIALIZATION_UPDATE_MS);
+
+document.querySelector('button').addEventListener('click', function() {
+    context.resume().then(() => {
+      console.log('AudioContext playback resumed successfully');
+    });
+  });

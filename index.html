@@ -42,6 +42,11 @@
       left: 0;
     }
   </style>
+  <script>
+    window.onload = function() {
+      var context2 = new AudioContext();
+    }
+    </script>
 </head>
 
 <body>
@@ -81,7 +86,7 @@ function isMobile() {
     player.preload = 'auto';
     player.autoload = true;
     player.width(width), player.height(height);
-    player.muted(false);
+    //player.muted(true);
     player.panorama({
         clickToToggle: (!isMobile()),
         clickAndDrag: true,
