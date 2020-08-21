@@ -4,17 +4,6 @@ const IR_PATH = './decodingFilters/';
 var decodingFiltersLoaded = false;
 const SPATIALIZATION_UPDATE_MS = 25;
 
-// create new audio context
-var AudioContext = window.AudioContext || window.webkitAudioContext;
-this.context = new AudioContext;
-console.log(this.context);
-var context = this.context;
-
-//this.playbackEventHandler = new PlaybackEventHandler(this.context);
-
-// create as many audio players as we need for max order
-this.audioElement = new Audio();
-var opusSupport = [];
 if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
     var player = window.player;
     var audio = document.getElementById("audio");
@@ -43,6 +32,17 @@ if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
 
 } else {
     opusSupport = true;
+    // create new audio context
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.context = new AudioContext;
+    console.log(this.context);
+    var context = this.context;
+
+    //this.playbackEventHandler = new PlaybackEventHandler(this.context);
+
+    // create as many audio players as we need for max order
+    this.audioElement = new Audio();
+    var opusSupport = [];
     this.sourceNode = this.context.createMediaElementSource(this.audioElement);
 
     this.audioPlayer = dashjs.MediaPlayer().create();
@@ -111,9 +111,9 @@ if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
         rotator.yaw = THETA * 180. / Math.PI;
         rotator.pitch = PHI * 180. / Math.PI;
         rotator.updateRotMtx();
-    
+
     }, SPATIALIZATION_UPDATE_MS);
-    
+
 }
 document.querySelector('button').addEventListener('click', function () {
     context.resume().then(() => {
