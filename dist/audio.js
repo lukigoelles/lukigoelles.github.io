@@ -17,13 +17,9 @@ if (isMobile()) {
     }
 }
 
-if (normalAudio) {
+if (true) {
     var player = window.player;
     const soundEffect = new Audio();
-
-    soundEffect.play();
-    soundEffect.pause();
-    soundEffect.currentTime = 0;
 
     soundEffect.src = './assets/audio2.mp3';
     
@@ -46,6 +42,12 @@ if (normalAudio) {
             audio.volume = 0;
         else
             audio.volume = this.volume();
+    });
+
+    document.querySelector('button').addEventListener('click', function() {
+        soundEffect.play();
+        soundEffect.pause();
+        soundEffect.currentTime = 0;
     });
 
 
