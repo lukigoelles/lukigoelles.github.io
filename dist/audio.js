@@ -39,22 +39,31 @@ if (normalAudio) {
     });
 
     player.on("pause", function () {
-        soundEffectpause();
+        soundEffect.pause();
+        update = false;
     });
 
     player.on("seeked", function () {
         let currTime = this.currentTime();
-        audio.currentTime = currTime;
+        soundEffect.currentTime = currTime;
     });
 
     player.on("volumechange", function () {
         if (this.muted())
-            audio.volume = 0;
+            soundEffect.volume = 0;
         else
-            audio.volume = this.volume();
+            soundEffect.volume = this.volume();
     });
 
+    setInterval(function () {
+        let currentTime = player.currentTime();
+        if(currentTime > 0 && !update){
+            soundEffect.currentTime = currentTime;
+            console.log('Update proceeded!');
+            update = true;
+        }
 
+    }, SPATIALIZATION_UPDATE_MS);
 
 
 } else {
@@ -64,6 +73,7 @@ if (normalAudio) {
     this.context = new AudioContext;
     console.log(this.context);
     var context = this.context;
+    var update = false;
 
     //this.playbackEventHandler = new PlaybackEventHandler(this.context);
 
@@ -115,6 +125,7 @@ if (normalAudio) {
 
     player.on("pause", function () {
         audioPlayer.pause();
+        update = false;
     });
 
     player.on("seeked", function () {
@@ -136,6 +147,12 @@ if (normalAudio) {
         rotator.yaw = THETA * 180. / Math.PI;
         rotator.pitch = PHI * 180. / Math.PI;
         rotator.updateRotMtx();
+        let currentTime = player.currentTime();
+        if(currentTime > 0 && !update){
+            audioPlayer.getVideoElement().currentTime = currentTime;
+            console.log('Update proceeded!');
+            update = true;
+        }
 
     }, SPATIALIZATION_UPDATE_MS);
 
