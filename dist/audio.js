@@ -126,9 +126,10 @@ if (normalAudio) {
 
     }, SPATIALIZATION_UPDATE_MS);
 
-}
-document.querySelector('button').addEventListener('click', function () {
-    context.resume().then(() => {
-        console.log('AudioContext playback resumed successfully');
+    document.querySelector('button').addEventListener('click', function () {
+        context.resume().then(() => {
+            console.log('AudioContext playback resumed successfully');
+        });
     });
-});
+
+}
