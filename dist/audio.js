@@ -3,6 +3,8 @@
 const IR_PATH = './decodingFilters/';
 var decodingFiltersLoaded = false;
 const SPATIALIZATION_UPDATE_MS = 25;
+this.audioElement = new Audio();
+var opusSupport = [];
 
 if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
     var player = window.player;
@@ -41,8 +43,6 @@ if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
     //this.playbackEventHandler = new PlaybackEventHandler(this.context);
 
     // create as many audio players as we need for max order
-    this.audioElement = new Audio();
-    var opusSupport = [];
     this.sourceNode = this.context.createMediaElementSource(this.audioElement);
 
     this.audioPlayer = dashjs.MediaPlayer().create();
