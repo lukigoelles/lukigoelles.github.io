@@ -7,7 +7,7 @@ var opusSupport = [];
 var normalAudio = true;
 
 if (isMobile()){
-    normalAudio == true;
+    normalAudio = true;
 } else {
     this.audioElement = new Audio();
     if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === ''){
@@ -20,6 +20,7 @@ if (isMobile()){
 if (normalAudio) {
     var player = window.player;
     var audio = document.getElementById("audio");
+    audio.load();
 
     player.on("play", function () {
         console.log("Play");
