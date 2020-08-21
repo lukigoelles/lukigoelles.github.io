@@ -21,13 +21,14 @@ if (normalAudio) {
     var player = window.player;
     var audio = document.getElementById('audio');
     audio.load();
-    audio.play()
-    audio.pause()
-    audio.currentTime = 0
+    audio.play();
+    audio.pause();
+    audio.currentTime = 0;
 
     player.on("play", function () {
         console.log("Play");
         audio.play();
+        alert('Play');
     });
 
     player.on("pause", function () {
