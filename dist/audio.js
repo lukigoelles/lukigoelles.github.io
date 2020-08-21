@@ -3,10 +3,21 @@
 const IR_PATH = './decodingFilters/';
 var decodingFiltersLoaded = false;
 const SPATIALIZATION_UPDATE_MS = 25;
-this.audioElement = new Audio();
 var opusSupport = [];
+var normalAudio = true;
 
-if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
+if (isMobile()){
+    normalAudio == true;
+} else {
+    this.audioElement = new Audio();
+    if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === ''){
+        normalAudio = true;
+    } else {
+        normalAudio = false;
+    }
+}
+
+if (normalAudio) {
     var player = window.player;
     var audio = document.getElementById("audio");
 
