@@ -20,6 +20,7 @@ if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
 } else {
     opusSupport = true;
 }
+alert(opusSupport);
 
 this.sourceNode = this.context.createMediaElementSource(this.audioElement);
 
