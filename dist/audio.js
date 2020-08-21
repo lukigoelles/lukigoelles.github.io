@@ -6,11 +6,11 @@ const SPATIALIZATION_UPDATE_MS = 25;
 var opusSupport = [];
 var normalAudio = true;
 
-if (isMobile()){
+if (isMobile()) {
     normalAudio = true;
 } else {
     this.audioElement = new Audio();
-    if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === ''){
+    if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
         normalAudio = true;
     } else {
         normalAudio = false;
@@ -19,20 +19,19 @@ if (isMobile()){
 
 if (normalAudio) {
     var player = window.player;
-    var audio = document.getElementById('audio');
-    audio.load();
-    audio.play();
-    audio.pause();
-    audio.currentTime = 0;
+    const soundEffect = new Audio();
 
+    soundEffect.play();
+
+    soundEffect.src = './assets/audio2.mp3';
+    
     player.on("play", function () {
         console.log("Play");
-        audio.play();
-        alert('Play');
+        soundEffect.play();
     });
 
     player.on("pause", function () {
-        audio.pause();
+        soundEffectpause();
     });
 
     player.on("seeked", function () {
