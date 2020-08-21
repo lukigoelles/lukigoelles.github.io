@@ -16,42 +16,31 @@ var context = this.context;
 this.audioElement = new Audio();
 var opusSupport = [];
 if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
-    this.audioElementsObject = new Audio();
-    this.audioElementsObject.src = './assets/audio2.mp3';
-    this.sourceNodesObject = context.createMediaElementSource(this.audioElementsObject); 
-
-    this.masterGain = this.context.createGain();
-    var Master = this.masterGain;
-    this.masterGain.gain.value = 1.0;
-
-    this.sourceNodesObject.connect(this.masterGain).connect(context.destination);
-
     var player = window.player;
+    var audio = document.getElementById("audio");
 
-    var audioElementsObject = this.audioElementsObject;
     player.on("play", function () {
         console.log("Play");
-        audioElementsObject.play();
+        audio.play();
     });
 
     player.on("pause", function () {
-        audioElementsObject.pause();
+        audio.pause();
     });
 
     player.on("seeked", function () {
         let currTime = this.currentTime();
-        audioElementsObject.currentTime = currTime;
-    })
+        audio.currentTime = currTime;
+    });
 
     player.on("volumechange", function () {
-        if (!masterGain)
-            return;
-
         if (this.muted())
-            masterGain.gain.value = 0;
+            audio.volume = 0;
         else
-            masterGain.gain.value = this.volume();
+            audio.volume = this.volume();
     });
+
+
 } else {
     opusSupport = true;
     this.sourceNode = this.context.createMediaElementSource(this.audioElement);
