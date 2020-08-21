@@ -17,7 +17,7 @@ if (isMobile()) {
     }
 }
 
-if (true) {
+if (normalAudio) {
     var player = window.player;
     const soundEffect = new Audio();
     var allAudio = true;
