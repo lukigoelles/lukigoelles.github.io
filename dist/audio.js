@@ -20,8 +20,18 @@ if (isMobile()) {
 if (true) {
     var player = window.player;
     const soundEffect = new Audio();
-
+    var allAudio = true;
     soundEffect.src = './assets/audio2.mp3';
+    var tapped = function() {
+        if(allAudio) {
+            soundEffect.play()
+            soundEffect.pause()
+            soundEffect.currentTime = 0
+            allAudio = false;
+        }};
+
+    document.body.addEventListener('touchstart', tapped, false)
+
     
     player.on("play", function () {
         console.log("Play");
@@ -44,11 +54,7 @@ if (true) {
             audio.volume = this.volume();
     });
 
-    document.querySelector('button').addEventListener('click', function() {
-        soundEffect.play();
-        soundEffect.pause();
-        soundEffect.currentTime = 0;
-    });
+
 
 
 } else {
