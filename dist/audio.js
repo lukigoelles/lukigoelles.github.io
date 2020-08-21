@@ -22,6 +22,8 @@ if (normalAudio) {
     const soundEffect = new Audio();
 
     soundEffect.play();
+    soundEffect.pause();
+    soundEffect.currentTime = 0;
 
     soundEffect.src = './assets/audio2.mp3';
     
