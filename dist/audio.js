@@ -19,7 +19,7 @@ if (isMobile()){
 
 if (normalAudio) {
     var player = window.player;
-    var audio = document.getElementById("audio");
+    var audio = new Audio("assets/audio2.mp3")
     audio.load();
 
     player.on("play", function () {
