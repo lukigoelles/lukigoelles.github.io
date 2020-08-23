@@ -89,8 +89,8 @@ function isMobile() {
     //player.muted(true);
     player.panorama({
         clickToToggle: (!isMobile()),
-        clickAndDrag: (!isMobile()),
-        autoMobileOrientation: (isMobile()),
+        clickAndDrag: true,
+        autoMobileOrientation: true,
         initFov: 100,
         NoticeMessage: (isMobile()) ? "please move your phone" : "please use your mouse drag and drop the video",
         //   callback: function () {
