@@ -6,6 +6,21 @@ const SPATIALIZATION_UPDATE_MS = 25;
 var opusSupport = [];
 var normalAudio = true;
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var videoToLoad = [];
+if(urlParams.has('video')){
+     videoToLoad = urlParams.get('video');
+} else{
+     videoToLoad = 'DemoVideo';
+}
+console.log(videoToLoad);
+
+document.getElementById('videojs-panorama-player').setAttribute('poster','./assets/' + videoToLoad + '.jpg');
+
+var player = window.player;
+player.src('./assets/' + videoToLoad + '.m4v');
+
 if (isMobile()) {
     normalAudio = true;
 } else {
@@ -18,10 +33,9 @@ if (isMobile()) {
 }
 
 if (normalAudio) {
-    var player = window.player;
     const soundEffect = new Audio();
     var allAudio = true;
-    soundEffect.src = './assets/audio2.mp3';
+    soundEffect.src = './assets/' + videoToLoad + '.mp3';
     var tapped = function() {
         if(allAudio) {
             soundEffect.play()
@@ -83,7 +97,7 @@ if (normalAudio) {
     this.audioPlayer = dashjs.MediaPlayer().create();
     this.audioPlayer.initialize(this.audioElement);
     this.audioPlayer.setAutoPlay(false);
-    this.audioPlayer.attachSource("./assets/audio2.mpd");
+    this.audioPlayer.attachSource("./assets/" + videoToLoad + ".mpd");
     let scope = this;
 
     this.order = 3;
@@ -181,8 +195,6 @@ if (normalAudio) {
     this.audioSetupComplete = true;
 
     var audioPlayer = this.audioPlayer;
-
-    var player = window.player;
 
     player.on("play", function () {
         console.log("Play");
