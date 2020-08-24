@@ -5,8 +5,8 @@ var alpha = 0;
 var beta = 80;
 
 function handleOrientation(event) {
-    alpha    = -event.alpha;
-    beta     = -event.beta;
+    alpha    = event.alpha;
+    beta     = event.beta;
  }
 
  var is_running = false;
