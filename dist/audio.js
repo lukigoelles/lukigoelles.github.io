@@ -152,10 +152,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             update = true;
         }
         let THETA_1 = THETA*180/Math.PI+180;
-        audio1.volume = masterVolume * Math.pow(10,10) * (Math.max((1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0) + Math.max((1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0));
-        audio4.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
-        audio3.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
-        audio2.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
+        // audio1.volume = masterVolume * Math.pow(10,10) * (Math.max((1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0) + Math.max((1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0));
+        // audio4.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
+        // audio3.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
+        // audio2.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
     }, SPATIALIZATION_UPDATE_MS);
 
 
