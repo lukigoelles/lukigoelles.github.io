@@ -44,7 +44,13 @@ if (normalAudio) {
             allAudio = false;
         }};
 
-    document.body.addEventListener('touchstart', tapped, false)
+    document.body.addEventListener('touchstart', tapped, false);
+    if (
+        DeviceMotionEvent &&
+        typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+        DeviceMotionEvent.requestPermission();
+    }
 
     
     player.on("play", function () {
@@ -235,12 +241,6 @@ if (normalAudio) {
 
     document.querySelector('button').addEventListener('click', function () {
         context.resume().then(() => {
-            if (
-                DeviceMotionEvent &&
-                typeof DeviceMotionEvent.requestPermission === "function"
-                ) {
-                DeviceMotionEvent.requestPermission();
-            }
             console.log('AudioContext playback resumed successfully');
         });
     });
