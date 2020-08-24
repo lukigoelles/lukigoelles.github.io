@@ -56,11 +56,11 @@ document.getElementById('videojs-panorama-player').setAttribute('poster','./asse
 var player = window.player;
 var volumeMaster = player.volume();
 player.src('./assets/' + videoToLoad + '.m4v');
+this.audioElement = new Audio();
 
-if (isMobile()) {
+if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
     normalAudio = true;
 } else {
-    this.audioElement = new Audio();
     if (this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
         normalAudio = true;
     } else {
@@ -70,8 +70,6 @@ if (isMobile()) {
 
  if (normalAudio) {
     const  soundEffect = new Audio();
-
-
     var allAudio = true;
     soundEffect.src = './assets/' + videoToLoad + '.mp3';
     var tapped = function() {
@@ -118,6 +116,7 @@ if (isMobile()) {
 
 
 } else {
+    player.controls(false);
     opusSupport = true;
     // create new audio context
     var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -228,6 +227,7 @@ if (isMobile()) {
     
 
     this.audioSetupComplete = true;
+    player.controls(true);
 
     var audioPlayer = this.audioPlayer;
 
