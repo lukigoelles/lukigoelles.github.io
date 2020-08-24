@@ -7,7 +7,11 @@ var orientation_landscape = false;
 
 function handleOrientation(event) {
     alpha    = -event.alpha;
-    beta     = -event.beta;
+    if (orientation_landscape){
+        beta = -event.gamma;
+    } else {
+        beta = -event.beta;
+    }
     window.onorientationchange = function(event) { 
         if (orientation_landscape){
             beta = -event.beta;
