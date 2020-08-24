@@ -1,8 +1,8 @@
 var THETA = 0;
 var PHI = 0;
 
-var alpha = -350;
-var beta = -80;
+var alpha = 0;
+var beta = 80;
 
 function handleOrientation(event) {
     alpha    = -event.alpha;
@@ -890,9 +890,9 @@ var camera = [];
                         isinit = true;
                     }
 
-                    this.camera.target.x = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.cos(this.theta + (alpha + 350) * Math.PI / 180);
-                    this.camera.target.y = 500 * Math.cos(this.phi + (beta + 80) * Math.PI / 180);
-                    this.camera.target.z = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.sin(this.theta + (alpha + 350) * Math.PI / 180);
+                    this.camera.target.x = 500 * Math.sin(this.phi + (beta - 80) * Math.PI / 180) * Math.cos(this.theta + alpha * Math.PI / 180);
+                    this.camera.target.y = 500 * Math.cos(this.phi + (beta - 80) * Math.PI / 180);
+                    this.camera.target.z = 500 * Math.sin(this.phi + (beta - 80) * Math.PI / 180) * Math.sin(this.theta + alpha * Math.PI / 180);
                     this.camera.lookAt(this.camera.target);
                     camera = this.camera;
                     THETA = this.theta;
