@@ -81,9 +81,6 @@ if (isMobile()) {
             soundEffect.currentTime = 0
             allAudio = false;
         }
-        if ( window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function' ){
-            ClickRequestDeviceMotionEvent();
-        }
     };
 
     document.body.addEventListener('touchstart', tapped, false);
