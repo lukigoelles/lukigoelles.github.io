@@ -870,15 +870,6 @@ var camera = [];
                 render: function render() {
                     parent.render.call(this);
 
-                    if (this.settings.autoMobileOrientation) {
-                        if (_Util2.default.getChromeVersion() >= 66) {
-                            // Chrome is using degrees instead of radians
-                            window.addEventListener('devicemotion', this.handleMobileOrientationDegrees.bind(this));
-                        } else {
-                            window.addEventListener('devicemotion', this.handleMobileOrientationRadians.bind(this));
-                        }
-                    }
-
                     // if (!isinit){
   
                     //     if (!is_running){
