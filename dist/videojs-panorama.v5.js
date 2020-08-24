@@ -3,11 +3,21 @@ var PHI = 0;
 
 var alpha = -350;
 var beta = -80;
+var orientation_landscape = false;
 
 function handleOrientation(event) {
     alpha    = -event.alpha;
     beta     = -event.beta;
-    console.log(alpha);
+    window.onorientationchange = function(event) { 
+        if (orientation_landscape){
+            beta = -event.beta;
+            orientation_landscape = false;
+        }
+        else{
+            beta = -event.gamma;
+            orientation_landscape = true;
+        }
+    };
  }
 
  var is_running = false;
