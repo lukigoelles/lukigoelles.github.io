@@ -70,13 +70,26 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
  if (normalAudio) {
     const  soundEffect = new Audio();
+
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.context = new AudioContext;
+    console.log(this.context);
+    var context = this.context;
+
     var allAudio = true;
-    soundEffect.src = './assets/' + videoToLoad + '.mp3';
+    //soundEffect.src = './assets/' + videoToLoad + '.mp3';
+    var audioElementsObjects = new Audio();
+    audioElementsObjects.src = './assets/' + videoToLoad + '.mp3';
+    var sourceNodesObjects = context.createMediaElementSource(audioElementsObjects);
+
+    sourceNodesObjects.connect(context.destination);
+
     var tapped = function() {
         if(allAudio) {
-            soundEffect.play()
-            soundEffect.pause()
-            soundEffect.currentTime = 0
+            // soundEffect.play()
+            // soundEffect.pause()
+            // soundEffect.currentTime = 0
+            context.resume();
             allAudio = false;
         }
     };
@@ -85,17 +98,18 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     
     player.on("play", function () {
         console.log("Play");
-        soundEffect.play();
+        //soundEffect.play();
+        audioElementsObjects.play()
     });
 
     player.on("pause", function () {
-        soundEffect.pause();
+        audioElementsObjects.pause();
         update = false;
     });
 
     player.on("seeked", function () {
         let currTime = this.currentTime();
-        soundEffect.currentTime = currTime;
+        audioElementsObjects.currentTime = currTime;
     });
 
     player.on("volumechange", function () {
@@ -108,7 +122,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function () {
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
-            soundEffect.currentTime = currentTime;
+            audioElementsObjects.currentTime = currentTime;
             console.log('Update proceeded!');
             update = true;
         }
