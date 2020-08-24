@@ -47,12 +47,6 @@ if (normalAudio) {
     document.body.addEventListener('touchstart', tapped, false);
     
     player.on("play", function () {
-        if (
-            DeviceMotionEvent &&
-            typeof DeviceMotionEvent.requestPermission === "function"
-            ) {
-            DeviceMotionEvent.requestPermission();
-        }
         console.log("Play");
         soundEffect.play();
     });
