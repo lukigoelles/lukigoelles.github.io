@@ -78,31 +78,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // soundEffect.src = './assets/' + videoToLoad + '0.mp3';
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     var audio1 = new Audio();
-    audio1.src = './assets/' + videoToLoad + '0.mp3';
-
-    var audio2 = new Audio();
-    audio2.src = './assets/' + videoToLoad + '90.mp3';
-
-    var audio3 = new Audio();
-    audio3.src = './assets/' + videoToLoad + '180.mp3';
-
-    var audio4 = new Audio();
-    audio4.src = './assets/' + videoToLoad + '270.mp3';
+    audio1.src = './assets/' + videoToLoad + '.mp3';
 
     var tapped = function() {
         if(allAudio) {
             audio1.play();
             audio1.pause();
             audio1.currentTime = 0;
-            audio2.play();
-            audio2.pause();
-            audio2.currentTime = 0;
-            audio3.play();
-            audio3.pause();
-            audio3.currentTime = 0;
-            audio4.play();
-            audio4.pause();
-            audio4.currentTime = 0;
             allAudio = false;
         }
     };
@@ -112,50 +94,32 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     player.on("play", function () {
         console.log("Play");
         audio1.play();
-        audio2.play();
-        audio3.play();
-        audio4.play();
     });
 
     player.on("pause", function () {
         audio1.pause();
-        audio2.pause();
-        audio3.pause();
-        audio4.pause();
         update = false;
     });
 
     player.on("seeked", function () {
         audio1.currentTime = this.currentTime();
-        audio2.currentTime = this.currentTime();
-        audio3.currentTime = this.currentTime();
-        audio4.currentTime = this.currentTime();
     });
 
-    var masterVolume = 1;
+
     player.on("volumechange", function () {
         if (this.muted())
-            masterVolume = 0;
+            audio1.volume = 0;
         else
-            masterVolume = this.volume();
+            audio1.volume = this.volume();
     });
 
-    var a = 1.1010*Math.pow(10,-7);
     setInterval(function () {
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
             audio1.currentTime = currentTime;
-            audio2.currentTime = currentTime;
-            audio3.currentTime = currentTime;
-            audio4.currentTime = currentTime;
             console.log('Update proceeded!');
             update = true;
         }
-        let THETA_1 = THETA*180/Math.PI+180;
-        // audio1.volume = masterVolume * Math.pow(10,10) * (Math.max((1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0) + Math.max((1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0));
-        // audio4.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
-        // audio3.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
-        // audio2.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
     }, SPATIALIZATION_UPDATE_MS);
 
 
