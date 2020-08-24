@@ -1,5 +1,17 @@
 var THETA = 0;
 var PHI = 0;
+
+var alpha = 0;
+var beta = 80;
+var gamma = 0;
+
+function handleOrientation(event) {
+    alpha = event.alpha;
+    beta = event.beta;
+    gamma = event.gamma;
+  }
+
+var camera = [];
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /*! npm.im/intervalometer */
 'use strict';
@@ -855,10 +867,33 @@ var Canvas = function Canvas(baseComponent, THREE) {
 
         render: function render() {
             parent.render.call(this);
-            this.camera.target.x = 500 * Math.sin(this.phi) * Math.cos(this.theta);
-            this.camera.target.y = 500 * Math.cos(this.phi);
-            this.camera.target.z = 500 * Math.sin(this.phi) * Math.sin(this.theta);
+
+            if (isMobile()) {
+                let is_running = false;
+                player.on("play", function () {
+                    // Request permission for iOS 13+ devices
+                    if (
+                        DeviceMotionEvent &&
+                        typeof DeviceMotionEvent.requestPermission === "function"
+                    ) {
+                        DeviceMotionEvent.requestPermission();
+                    }
+
+                    if (is_running) {
+                        window.removeEventListener("deviceorientation", handleOrientation);
+                        is_running = false;
+                    } else {
+                        window.addEventListener("deviceorientation", handleOrientation);
+                        is_running = true;
+                    }
+                });
+            };
+
+            this.camera.target.x = 500 * Math.sin(this.phi+(beta-80)*Math.PI/180) * Math.cos(this.theta+alpha*Math.PI/180);
+            this.camera.target.y = 500 * Math.cos(this.phi+(beta-80)*Math.PI/180);
+            this.camera.target.z = 500 * Math.sin(this.phi+(beta-80)*Math.PI/180) * Math.sin(this.theta+alpha*Math.PI/180);
             this.camera.lookAt(this.camera.target);
+            camera = this.camera;
             THETA = this.theta;
             PHI = this.phi;
             //console.log(this.theta);

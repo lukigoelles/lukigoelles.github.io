@@ -127,16 +127,14 @@ if (normalAudio) {
         // Decoder
     this.mtx = numeric.identity(this.sourceNode.channelCount);
     var request = new XMLHttpRequest();
-    var url = './dist/5point1.json';
+    var url = './dist/Decoder.json';
     request.open("GET",url,false);
     request.send(null);
     var jsonData = JSON.parse(request.responseText);
-    this.mtx[0] = jsonData.Decoder.Matrix[0];
-    this.mtx[1] = jsonData.Decoder.Matrix[1];
-    this.mtx[2] = jsonData.Decoder.Matrix[2];
-    this.mtx[3] = jsonData.Decoder.Matrix[3];
-    this.mtx[4] = jsonData.Decoder.Matrix[4];
-    this.mtx[5] = jsonData.Decoder.Matrix[5];
+    for (let i=0; i<16; i++){
+        this.mtx[i] = jsonData.Decoder.Matrix[i];
+    }
+
     var mtx = this.mtx;
 
     var Decoder = [];
@@ -199,6 +197,7 @@ if (normalAudio) {
     player.on("play", function () {
         console.log("Play");
         audioPlayer.play();
+        // camera.lookAt(this.camera.target);
     });
 
     player.on("pause", function () {
@@ -222,8 +221,8 @@ if (normalAudio) {
     });
 
     setInterval(function () {
-        rotator.yaw = THETA * 180. / Math.PI;
-        rotator.pitch = PHI * 180. / Math.PI;
+        rotator.yaw = -THETA * 180. / Math.PI +180;
+        rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
