@@ -79,43 +79,26 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     var audio1 = new Audio();
     audio1.src = './assets/' + videoToLoad + '0.mp3';
-    var source1 = context.createMediaElementSource(audio1);
 
     var audio2 = new Audio();
     audio2.src = './assets/' + videoToLoad + '90.mp3';
-    var source2 = context.createMediaElementSource(audio2);
 
     var audio3 = new Audio();
     audio3.src = './assets/' + videoToLoad + '180.mp3';
-    var source3 = context.createMediaElementSource(audio3);
 
     var audio4 = new Audio();
     audio4.src = './assets/' + videoToLoad + '270.mp3';
-    var source4 = context.createMediaElementSource(audio4);
-
-
-    source1.connect(context.destination);
-    source2.connect(context.destination);
-    source3.connect(context.destination);
-    source4.connect(context.destination);
 
     var tapped = function() {
         if(allAudio) {
-            // soundEffect.play()
-            // soundEffect.pause()
-            // soundEffect.currentTime = 0
-            context.resume();
+            audio1.play();
+            audio1.pause();
+            audio1.currentTime = 0;
         }
     };
 
     document.body.addEventListener('touchstart', tapped, false);
 
-    document.querySelector('button').addEventListener('click', function () {
-        context.resume().then(() => {
-            console.log('AudioContext playback resumed successfully');
-        });
-    });
-    
     player.on("play", function () {
         console.log("Play");
         audio1.play();
@@ -149,15 +132,15 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var a = 1.1010*Math.pow(10,-7);
     setInterval(function () {
-        // //let currentTime = player.currentTime();
-        // if(currentTime > 0 && !update){
-        //     // audio1.currentTime = currentTime;
-        //     // audio2.currentTime = currentTime;
-        //     // audio3.currentTime = currentTime;
-        //     // audio4.currentTime = currentTime;
-        //     console.log('Update proceeded!');
-        //     update = true;
-        // }
+        let currentTime = player.currentTime();
+        if(currentTime > 0 && !update){
+            audio1.currentTime = currentTime;
+            audio2.currentTime = currentTime;
+            audio3.currentTime = currentTime;
+            audio4.currentTime = currentTime;
+            console.log('Update proceeded!');
+            update = true;
+        }
         let THETA_1 = THETA*180/Math.PI+180;
         audio1.volume = masterVolume * Math.pow(10,10) * (Math.max((1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0) + Math.max((1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0));
         audio4.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
