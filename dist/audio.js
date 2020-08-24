@@ -94,6 +94,15 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             audio1.play();
             audio1.pause();
             audio1.currentTime = 0;
+            audio2.play();
+            audio2.pause();
+            audio2.currentTime = 0;
+            audio3.play();
+            audio3.pause();
+            audio3.currentTime = 0;
+            audio4.play();
+            audio4.pause();
+            audio4.currentTime = 0;
             allAudio = false;
         }
     };
