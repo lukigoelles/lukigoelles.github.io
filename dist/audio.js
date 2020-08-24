@@ -1,5 +1,10 @@
 "use strict";
 
+var audioElementsObjects = [];
+var GainNodes = [];
+var sourceNodesObjects = [];
+var a = [];
+
 window.onload = function () {
 
     // Check if is IOS 13 when page loads.
@@ -62,15 +67,38 @@ if (isMobile()) {
     }
 }
 
-if (normalAudio) {
-    const soundEffect = new Audio();
+ if (normalAudio) {
+    //const soundEffect = new Audio();
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.context = new AudioContext;
+    for (let i = 0; i<4; i++){
+        audioElementsObjects[i] = new Audio();
+        GainNodes[i] = context.createGain();
+    }
+    audioElementsObjects[0].src = './assets/' + videoToLoad + '0.mp3';
+    audioElementsObjects[1].src = './assets/' + videoToLoad + '90.mp3';
+    audioElementsObjects[2].src = './assets/' + videoToLoad + '180.mp3';
+    audioElementsObjects[3].src = './assets/' + videoToLoad + '270.mp3';
+    var masterGain = context.createGain();
+
+    for (let i = 0; i<4; i++){
+        sourceNodesObjects[i] = context.createMediaElementSource(audioElementsObjects[i]);
+        sourceNodesObjects[i].connect(GainNodes[i]).connect(masterGain).connect(context.destination);
+    }
+
+
     var allAudio = true;
-    soundEffect.src = './assets/' + videoToLoad + '.mp3';
+    //soundEffect.src = './assets/' + videoToLoad + '.mp3';
     var tapped = function() {
         if(allAudio) {
-            soundEffect.play()
-            soundEffect.pause()
-            soundEffect.currentTime = 0
+            for (let i = 0; i<4; i++){
+                audioElementsObjects[i].play();
+                audioElementsObjects[i].pause();
+                audioElementsObjects[i].currentTime = 0;
+            }
+            // soundEffect.play()
+            // soundEffect.pause()
+            // soundEffect.currentTime = 0
             allAudio = false;
         }};
 
@@ -78,34 +106,50 @@ if (normalAudio) {
     
     player.on("play", function () {
         console.log("Play");
-        soundEffect.play();
+        for (let i = 0; i<4; i++){
+            audioElementsObjects[i].play();
+        }
     });
 
     player.on("pause", function () {
-        soundEffect.pause();
+        for (let i = 0; i<4; i++){
+            audioElementsObjects[i].pause();
+        }
         update = false;
     });
 
     player.on("seeked", function () {
         let currTime = this.currentTime();
-        soundEffect.currentTime = currTime;
+        //soundEffect.currentTime = currTime;
+        for (let i = 0; i<4; i++){
+            audioElementsObjects[i].currentTime = currTime;
+        }
     });
 
     player.on("volumechange", function () {
         if (this.muted())
-            soundEffect.volume = 0;
+            //soundEffect.volume = 0;
+            masterGain.gain.value = 0;
         else
-            soundEffect.volume = this.volume();
+            //soundEffect.volume = this.volume();
+            masterGain.gain.value = this.volume();
     });
 
+    a = 1.1010*Math.pow(10,-7);
     setInterval(function () {
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
-            soundEffect.currentTime = currentTime;
+            for (let i = 0; i<4; i++){
+                audioElementsObjects[i].currentTime = 0;
+            }
             console.log('Update proceeded!');
             update = true;
         }
-
+        let THETA_1 = THETA*180/Math.PI+180;
+        GainNodes[0].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0)+Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0);
+        GainNodes[3].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
+        GainNodes[2].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
+        GainNodes[1].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
     }, SPATIALIZATION_UPDATE_MS);
 
 
