@@ -45,15 +45,14 @@ if (normalAudio) {
         }};
 
     document.body.addEventListener('touchstart', tapped, false);
-    if (
-        DeviceMotionEvent &&
-        typeof DeviceMotionEvent.requestPermission === "function"
-        ) {
-        DeviceMotionEvent.requestPermission();
-    }
-
     
     player.on("play", function () {
+        if (
+            DeviceMotionEvent &&
+            typeof DeviceMotionEvent.requestPermission === "function"
+            ) {
+            DeviceMotionEvent.requestPermission();
+        }
         console.log("Play");
         soundEffect.play();
     });
