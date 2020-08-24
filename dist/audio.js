@@ -235,6 +235,12 @@ if (normalAudio) {
 
     document.querySelector('button').addEventListener('click', function () {
         context.resume().then(() => {
+            if (
+                DeviceMotionEvent &&
+                typeof DeviceMotionEvent.requestPermission === "function"
+                ) {
+                DeviceMotionEvent.requestPermission();
+            }
             console.log('AudioContext playback resumed successfully');
         });
     });

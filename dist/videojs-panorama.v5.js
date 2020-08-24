@@ -7,6 +7,7 @@ var beta = 80;
 function handleOrientation(event) {
     alpha    = event.alpha;
     beta     = event.beta;
+    console.log(alpha);
  }
 
  var is_running = false;
@@ -872,21 +873,11 @@ var camera = [];
                     parent.render.call(this);
 
                     if (!isinit){
-                         // Request permission for iOS 13+ devices
-                        if (
-                            DeviceMotionEvent &&
-                            typeof DeviceMotionEvent.requestPermission === "function"
-                            ) {
-                            DeviceMotionEvent.requestPermission();
-                        }
   
-                        if (is_running){
-                            window.removeEventListener("deviceorientation", handleOrientation);
-                            is_running = false;
-                            }else{
+                        if (!is_running){
                             window.addEventListener("deviceorientation", handleOrientation);
                             is_running = true;
-                            }
+                        }
                         isinit = true;
                     }
 
