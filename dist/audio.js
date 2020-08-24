@@ -54,6 +54,7 @@ console.log(videoToLoad);
 document.getElementById('videojs-panorama-player').setAttribute('poster','./assets/' + videoToLoad + '.jpg');
 
 var player = window.player;
+var volumeMaster = player.volume();
 player.src('./assets/' + videoToLoad + '.m4v');
 
 if (isMobile()) {
@@ -68,88 +69,54 @@ if (isMobile()) {
 }
 
  if (normalAudio) {
-    //const soundEffect = new Audio();
-    var AudioContext = window.AudioContext || window.webkitAudioContext;
-    this.context = new AudioContext;
-    for (let i = 0; i<4; i++){
-        audioElementsObjects[i] = new Audio();
-        GainNodes[i] = context.createGain();
-    }
-    audioElementsObjects[0].src = './assets/' + videoToLoad + '0.mp3';
-    audioElementsObjects[1].src = './assets/' + videoToLoad + '90.mp3';
-    audioElementsObjects[2].src = './assets/' + videoToLoad + '180.mp3';
-    audioElementsObjects[3].src = './assets/' + videoToLoad + '270.mp3';
-    var masterGain = context.createGain();
-
-    for (let i = 0; i<4; i++){
-        sourceNodesObjects[i] = context.createMediaElementSource(audioElementsObjects[i]);
-        sourceNodesObjects[i].connect(GainNodes[i]).connect(masterGain).connect(context.destination);
-    }
+    const  soundEffect = new Audio();
 
 
     var allAudio = true;
-    //soundEffect.src = './assets/' + videoToLoad + '.mp3';
+    soundEffect.src = './assets/' + videoToLoad + '.mp3';
     var tapped = function() {
         if(allAudio) {
-            for (let i = 0; i<4; i++){
-                audioElementsObjects[i].play();
-                audioElementsObjects[i].pause();
-                audioElementsObjects[i].currentTime = 0;
-            }
-            // soundEffect.play()
-            // soundEffect.pause()
-            // soundEffect.currentTime = 0
+            soundEffect.play()
+            soundEffect.pause()
+            soundEffect.currentTime = 0
             allAudio = false;
-        }};
+        }
+        if ( window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function' ){
+            ClickRequestDeviceMotionEvent();
+        }
+    };
 
     document.body.addEventListener('touchstart', tapped, false);
     
     player.on("play", function () {
         console.log("Play");
-        for (let i = 0; i<4; i++){
-            audioElementsObjects[i].play();
-        }
+        soundEffect.play();
     });
 
     player.on("pause", function () {
-        for (let i = 0; i<4; i++){
-            audioElementsObjects[i].pause();
-        }
+        soundEffect.pause();
         update = false;
     });
 
     player.on("seeked", function () {
         let currTime = this.currentTime();
-        //soundEffect.currentTime = currTime;
-        for (let i = 0; i<4; i++){
-            audioElementsObjects[i].currentTime = currTime;
-        }
+        soundEffect.currentTime = currTime;
     });
 
     player.on("volumechange", function () {
         if (this.muted())
-            //soundEffect.volume = 0;
-            masterGain.gain.value = 0;
+            soundEffect.volume = 0;
         else
-            //soundEffect.volume = this.volume();
-            masterGain.gain.value = this.volume();
+            soundEffect.volume = this.volume();
     });
 
-    a = 1.1010*Math.pow(10,-7);
     setInterval(function () {
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
-            for (let i = 0; i<4; i++){
-                audioElementsObjects[i].currentTime = 0;
-            }
+            soundEffect.currentTime = 0;
             console.log('Update proceeded!');
             update = true;
         }
-        let THETA_1 = THETA*180/Math.PI+180;
-        GainNodes[0].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0)+Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0);
-        GainNodes[3].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
-        GainNodes[2].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
-        GainNodes[1].gain.value = Math.max(Math.pow(10,10)*(1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
     }, SPATIALIZATION_UPDATE_MS);
 
 
