@@ -3,25 +3,9 @@ var PHI = 0;
 
 var alpha = -350;
 var beta = -80;
-var orientation_landscape = false;
 
 function handleOrientation(event) {
     alpha    = -event.alpha;
-    if (orientation_landscape){
-        beta = -event.gamma;
-    } else {
-        beta = -event.beta;
-    }
-    window.onorientationchange = function(event) { 
-        if (orientation_landscape){
-            beta = -event.beta;
-            orientation_landscape = false;
-        }
-        else{
-            beta = -event.gamma;
-            orientation_landscape = true;
-        }
-    };
  }
 
  var is_running = false;
@@ -894,7 +878,6 @@ var camera = [];
                         }
                         isinit = true;
                     }
-
                     this.camera.target.x = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.cos(this.theta + (alpha + 350) * Math.PI / 180);
                     this.camera.target.y = 500 * Math.cos(this.phi + (beta + 80) * Math.PI / 180);
                     this.camera.target.z = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.sin(this.theta + (alpha + 350) * Math.PI / 180);
