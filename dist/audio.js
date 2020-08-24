@@ -110,7 +110,7 @@ if (isMobile()) {
     setInterval(function () {
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
-            soundEffect.currentTime = 0;
+            soundEffect.currentTime = currentTime;
             console.log('Update proceeded!');
             update = true;
         }
