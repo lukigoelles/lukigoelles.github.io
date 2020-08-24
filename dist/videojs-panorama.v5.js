@@ -4,9 +4,9 @@ var PHI = 0;
 var alpha = -350;
 var beta = -80;
 
-function handleOrientation(event) {
-    alpha    = -event.alpha;
- }
+// function handleOrientation(event) {
+//     alpha    = -event.alpha;
+//  }
 
  var is_running = false;
  var isinit = false;
@@ -870,14 +870,14 @@ var camera = [];
                 render: function render() {
                     parent.render.call(this);
 
-                    if (!isinit){
+                    // if (!isinit){
   
-                        if (!is_running){
-                            window.addEventListener("deviceorientation", handleOrientation);
-                            is_running = true;
-                        }
-                        isinit = true;
-                    }
+                    //     if (!is_running){
+                    //         window.addEventListener("deviceorientation", handleOrientation);
+                    //         is_running = true;
+                    //     }
+                    //     isinit = true;
+                    // }
                     this.camera.target.x = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.cos(this.theta + (alpha + 350) * Math.PI / 180);
                     this.camera.target.y = 500 * Math.cos(this.phi + (beta + 80) * Math.PI / 180);
                     this.camera.target.z = 500 * Math.sin(this.phi + (beta + 80) * Math.PI / 180) * Math.sin(this.theta + (alpha + 350) * Math.PI / 180);
