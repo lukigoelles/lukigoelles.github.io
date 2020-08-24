@@ -68,13 +68,36 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }
 }
 
- if (true) {
+ if (normalAudio) {
     const  soundEffect = new Audio();
-    player.controls(false);
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext;
     console.log(this.context);
     var context = this.context;
+    var allAudio = true;
+    // soundEffect.src = './assets/' + videoToLoad + '0.mp3';
+    // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
+    var audio1 = new Audio();
+    audio1.src = './assets/' + videoToLoad + '0.mp3';
+    var source1 = context.createMediaElementSource(audio1);
+
+    var audio2 = new Audio();
+    audio2.src = './assets/' + videoToLoad + '90.mp3';
+    var source2 = context.createMediaElementSource(audio2);
+
+    var audio3 = new Audio();
+    audio3.src = './assets/' + videoToLoad + '180.mp3';
+    var source3 = context.createMediaElementSource(audio3);
+
+    var audio4 = new Audio();
+    audio4.src = './assets/' + videoToLoad + '270.mp3';
+    var source4 = context.createMediaElementSource(audio4);
+
+
+    source1.connect(context.destination);
+    source2.connect(context.destination);
+    source3.connect(context.destination);
+    source4.connect(context.destination);
 
     var tapped = function() {
         if(allAudio) {
@@ -82,167 +105,65 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             // soundEffect.pause()
             // soundEffect.currentTime = 0
             context.resume();
-            allAudio = false;
         }
     };
 
     document.body.addEventListener('touchstart', tapped, false);
 
-    var allAudio = true;
-
-    const audioPaths = [
-        './assets/' + videoToLoad + '0.mp3',
-        './assets/' + videoToLoad + '90.mp3',
-        './assets/' + videoToLoad + '180.mp3',
-        './assets/' + videoToLoad + '270.mp3'
-    ];
-    var promises = [];
-    
-    
-    // utility function to load an audio file and resolve it as a decoded audio buffer
-    function getBuffer(url, audioCtx) {
-        return new Promise((resolve, reject) => {
-            if (!url) {
-                reject("Missing url!");
-                return;
-            }
-    
-            if (!audioCtx) {
-                reject("Missing audio context!");
-                return;
-            }
-    
-            let xhr = new XMLHttpRequest();
-            xhr.open("GET", url);
-            xhr.responseType = "arraybuffer";
-    
-            xhr.onload = function() {
-                let arrayBuffer = xhr.response;
-                audioCtx.decodeAudioData(arrayBuffer, decodedBuffer => {
-                    resolve(decodedBuffer);
-                });
-            };
-    
-            xhr.onerror = function() {
-                reject("An error occurred.");
-            };
-    
-            xhr.send();
+    document.querySelector('button').addEventListener('click', function () {
+        context.resume().then(() => {
+            console.log('AudioContext playback resumed successfully');
         });
-    }
-    
-    
-    audioPaths.forEach(p => {
-        promises.push(getBuffer(p, this.context));
     });
     
-    var sources = [];
-    var count = 0;
-    // Once all your sounds are loaded, create an AudioBufferSource for each one and start sound
-    Promise.all(promises).then(buffers => {
-        buffers.forEach(b => {
-            let source = this.context.createBufferSource();
-            source.buffer = b;
-            source.connect(context.destination);
-            sources[count] = source;
-            count = count+1;
-        })
-        player.controls(true);
-    });
-
     player.on("play", function () {
         console.log("Play");
-        //soundEffect.play();
-        sources[0].start();
-        sources[1].start();
-        sources[2].start();
-        sources[3].start();
+        audio1.play();
+        audio2.play();
+        audio3.play();
+        audio4.play();
     });
 
     player.on("pause", function () {
-        sources[0].stop();
-        sources[1].stop();
-        sources[2].stop();
-        sources[3].stop();
-
-        sources = [];
-        promises = [];
-        count = 0;
+        audio1.pause();
+        audio2.pause();
+        audio3.pause();
+        audio4.pause();
+        update = false;
     });
 
+    player.on("seeked", function () {
+        audio1.currentTime = this.currentTime();
+        audio2.currentTime = this.currentTime();
+        audio3.currentTime = this.currentTime();
+        audio4.currentTime = this.currentTime();
+    });
 
-    //soundEffect.src = './assets/' + videoToLoad + '.mp3';
-    // var audioElementsObjects = [];
-    // audioElementsObjects[0] = new Audio();
-    // audioElementsObjects[1] = new Audio();
-    // audioElementsObjects[2] = new Audio();
-    // audioElementsObjects[3] = new Audio();
-    // audioElementsObjects[0].src = './assets/' + videoToLoad + '0.mp3';
-    // audioElementsObjects[1].src = './assets/' + videoToLoad + '90.mp3';
-    // audioElementsObjects[2].src = './assets/' + videoToLoad + '180.mp3';
-    // audioElementsObjects[3].src = './assets/' + videoToLoad + '270.mp3';
+    var masterVolume = 1;
+    player.on("volumechange", function () {
+        if (this.muted())
+            masterVolume = 0;
+        else
+            masterVolume = this.volume();
+    });
 
-    // var sourceNodesObjects = [];
-    // sourceNodesObjects[0] = context.createMediaElementSource(audioElementsObjects[0]);
-    // sourceNodesObjects[1] = context.createMediaElementSource(audioElementsObjects[1]);
-    // sourceNodesObjects[2] = context.createMediaElementSource(audioElementsObjects[2]);
-    // sourceNodesObjects[3] = context.createMediaElementSource(audioElementsObjects[3]);
-
-    // sourceNodesObjects[0].connect(context.destination);
-    // sourceNodesObjects[1].connect(context.destination);
-    // sourceNodesObjects[2].connect(context.destination);
-    // sourceNodesObjects[3].connect(context.destination);
-
-
-    
-    // player.on("play", function () {
-    //     console.log("Play");
-    //     //soundEffect.play();
-    //     audioElementsObjects[0].play();
-    //     audioElementsObjects[1].play();
-    //     audioElementsObjects[2].play();
-    //     audioElementsObjects[3].play();
-    // });
-
-    // player.on("pause", function () {
-    //     audioElementsObjects[0].pause();
-    //     audioElementsObjects[1].pause();
-    //     audioElementsObjects[2].pause();
-    //     audioElementsObjects[3].pause();
-    //     update = false;
-    // });
-
-    // player.on("seeked", function () {
-    //     let currTime = this.currentTime();
-    //     console.log(this.currentTime());
-    //     audioElementsObjects[0].currentTime = currTime;
-    //     console.log(this.currentTime());
-    //     audioElementsObjects[1].currentTime = currTime;
-    //     console.log(this.currentTime());
-    //     audioElementsObjects[2].currentTime = currTime;
-    //     console.log(this.currentTime());
-    //     audioElementsObjects[3].currentTime = currTime;
-    //     console.log(this.currentTime());
-    // });
-
-    // player.on("volumechange", function () {
-    //     if (this.muted())
-    //         soundEffect.volume = 0;
-    //     else
-    //         soundEffect.volume = this.volume();
-    // });
-
-    // setInterval(function () {
-    //     let currentTime = player.currentTime();
-    //     if(currentTime > 0 && !update){
-    //         audioElementsObjects[0].currentTime = currentTime;
-    //         audioElementsObjects[1].currentTime = currentTime;
-    //         audioElementsObjects[2].currentTime = currentTime;
-    //         audioElementsObjects[3].currentTime = currentTime;
-    //         console.log('Update proceeded!');
-    //         update = true;
-    //     }
-    // }, SPATIALIZATION_UPDATE_MS);
+    var a = 1.1010*Math.pow(10,-7);
+    setInterval(function () {
+        // //let currentTime = player.currentTime();
+        // if(currentTime > 0 && !update){
+        //     // audio1.currentTime = currentTime;
+        //     // audio2.currentTime = currentTime;
+        //     // audio3.currentTime = currentTime;
+        //     // audio4.currentTime = currentTime;
+        //     console.log('Update proceeded!');
+        //     update = true;
+        // }
+        let THETA_1 = THETA*180/Math.PI+180;
+        audio1.volume = masterVolume * Math.pow(10,10) * (Math.max((1-Math.exp(-a*(THETA_1-270)))*(1-Math.exp(-a*(-THETA_1+450))),0) + Math.max((1-Math.exp(-a*(THETA_1+90)))*(1-Math.exp(-a*(-THETA_1+90))),0));
+        audio4.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*THETA_1))*(1-Math.exp(-a*(-THETA_1+180))),0);
+        audio3.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-90)))*(1-Math.exp(-a*(-THETA_1+270))),0);
+        audio2.volume = masterVolume * Math.pow(10,10)*Math.max((1-Math.exp(-a*(THETA_1-180)))*(1-Math.exp(-a*(-THETA_1+360))),0);
+    }, SPATIALIZATION_UPDATE_MS);
 
 
 } else {
