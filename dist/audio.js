@@ -68,7 +68,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }
 }
 
- if (true) {
+ if (normalAudio) {
     const soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     console.log(soundEffect);
