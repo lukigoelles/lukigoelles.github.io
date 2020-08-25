@@ -70,59 +70,84 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
  if (normalAudio) {
     const soundEffect = new Audio();
-    // var AudioContext = window.AudioContext || window.webkitAudioContext;
-    // this.context = new AudioContext;
-    // console.log(this.context);
-    // var context = this.context;
+    const soundEffect2 = new Audio();
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.context = new AudioContext;
+    console.log(this.context);
+    var context = this.context;
     var allAudio = true;
-    soundEffect.src = './assets/' + videoToLoad + '.flac';
+    soundEffect.src = './assets/' + videoToLoad + 'WY.mp3';
+    soundEffect2.src = './assets/' + videoToLoad + 'ZX.mp3';
     soundEffect.load();
+    soundEffect2.load();
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     // const audio1 = new Audio();
     // audio1.src = './assets/' + videoToLoad + '.mp3';
-    // this.audioNode = context.createMediaElementSource(this.audio1);
+    this.splitter = context.createChannelSplitter(4);
+    this.merger = context.createChannelMerger(4);
+    
+    this.audioNode = context.createMediaElementSource(soundEffect);
+    this.audioNode2 = context.createMediaElementSource(soundEffect2);
+
+    this.audioNode.channelCount = 4;
+    this.audioNode2.channelCount = 4;
 
     var tapped = function() {
         if(allAudio) {
             soundEffect.start();
             soundEffect.pause();
             soundEffect.currentTime = 0;
+            soundEffect2.start();
+            soundEffect2.pause();
+            soundEffect2.currentTime = 0;
             allAudio = false;
+            context.resume();
         }
     };
 
-    // document.querySelector('button').addEventListener('click', function () {
-    //     context.resume().then(() => {
-    //         console.log('AudioContext playback resumed successfully');
-    //     });
-    // });
+    document.querySelector('button').addEventListener('click', function () {
+        context.resume().then(() => {
+            console.log('AudioContext playback resumed successfully');
+        });
+    });
 
     document.body.addEventListener('touchstart', tapped, false);
 
-    //this.order = 1;
+    this.order = 1;
 
-    // this.rotator = new ambisonics.sceneRotator(this.context, this.order);
-    // var rotator = this.rotator;
-    // console.log(this.rotator);
+    this.rotator = new ambisonics.sceneRotator(this.context, this.order);
+    var rotator = this.rotator;
+    console.log(this.rotator);
 
-    // this.decoder = new ambisonics.binDecoder(this.context, this.order);
-    // let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
-    //     this.decoder.updateFilters(buffer);
-    //     decodingFiltersLoaded = true;
-    // });
-    // loaderFilters.load();
+    this.decoder = new ambisonics.binDecoder(this.context, this.order);
+    let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
+        this.decoder.updateFilters(buffer);
+        decodingFiltersLoaded = true;
+    });
+    loaderFilters.load();
 
-    // this.audioNode.connect(this.rotator.in);
-    // this.rotator.out.connect(this.decoder.in);
-    // this.decoder.out.connect(context.destination);
+    this.audioNode.connect(this.rotator.in);
+    this.rotator.out.connect(this.decoder.in);
+    this.decoder.out.connect(context.destination);
+
+    this.audioNode.connect(this.merger,0,0);
+    this.audioNode.connect(this.merger,0,1);
+    this.audioNode2.connect(this.merger,0,2);
+    this.audioNode2.connect(this.merger,0,3);
+
+    this.merger.connect(this.rotator.in)
+    this.rotator.out.connect(this.decoder.in);
+    this.decoder.out.connect(context.destination);
 
     player.on("play", function () {
         console.log("Play");
         soundEffect.play();
+        soundEffect2.play();
     });
 
     player.on("pause", function () {
         soundEffect.pause();
+        soundEffect2.pause();
         update = false;
     });
 
@@ -138,17 +163,18 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         soundEffect.volume = this.volume();
     });
 
-    // setInterval(function () {
-    //     // rotator.yaw = -THETA * 180. / Math.PI +180;
-    //     // rotator.pitch = PHI * 180. / Math.PI -90;
-    //     // rotator.updateRotMtx();
-    //     let currentTime = player.currentTime();
-    //     if(currentTime > 0 && !update){
-    //         soundEffect.currentTime = currentTime;
-    //         console.log('Update proceeded!');
-    //         update = true;
-    //     }
-    // }, SPATIALIZATION_UPDATE_MS);
+    setInterval(function () {
+        rotator.yaw = -THETA * 180. / Math.PI +180;
+        rotator.pitch = PHI * 180. / Math.PI -90;
+        rotator.updateRotMtx();
+        let currentTime = player.currentTime();
+        if(currentTime > 0 && !update){
+            soundEffect.currentTime = currentTime;
+            soundEffect2.currentTime = currentTime;
+            console.log('Update proceeded!');
+            update = true;
+        }
+    }, SPATIALIZATION_UPDATE_MS);
 
 
 } else {
