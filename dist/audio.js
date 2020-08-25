@@ -71,6 +71,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
  if (normalAudio) {
     const soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
+    soundEffect.autoload = true;
     console.log(soundEffect);
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext;
@@ -103,6 +104,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var tapped = function() {
         if(allAudio) {
             soundEffect.load();
+            player.controls(false);
             allAudio = false;
             console.log('AudioContext playback resumed successfully');
         }
@@ -187,6 +189,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         let currentTime = soundEffect.currentTime;
         if(currentTime > 0 && !update){
             player.currentTime(currentTime);
+            player.controls(true);
             console.log('Update proceeded!');
             console.log(soundEffect.readyState);
             update = true;
