@@ -70,18 +70,16 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
  if (normalAudio) {
     //const  soundEffect = new Audio();
-    var AudioContext = window.AudioContext || window.webkitAudioContext;
-    this.context = new AudioContext;
-    console.log(this.context);
-    var context = this.context;
+    // var AudioContext = window.AudioContext || window.webkitAudioContext;
+    // this.context = new AudioContext;
+    // console.log(this.context);
+    // var context = this.context;
     var allAudio = true;
     // soundEffect.src = './assets/' + videoToLoad + '0.mp3';
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
-    this.audio1 = new Audio();
-    this.audio1.src = './assets/' + videoToLoad + '.mp3';
+    const audio1 = new Audio();
+    audio1.src = './assets/' + videoToLoad + '.mp3';
     // this.audioNode = context.createMediaElementSource(this.audio1);
-
-    var audio1 = this.audio1;
 
     var tapped = function() {
         if(allAudio) {
