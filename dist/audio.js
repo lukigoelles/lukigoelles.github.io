@@ -78,7 +78,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // soundEffect.src = './assets/' + videoToLoad + '0.mp3';
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     this.audio1 = new Audio();
-    this.audio1.src = './assets/' + videoToLoad + '.flac';
+    this.audio1.src = './assets/' + videoToLoad + '.mp3';
     // this.audioNode = context.createMediaElementSource(this.audio1);
 
     var audio1 = this.audio1;
