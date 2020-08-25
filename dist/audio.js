@@ -68,9 +68,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }
 }
 
- if (normalAudio) {
+ if (true) {
     const soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
+    console.log(soundEffect);
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext;
     console.log(this.context);
@@ -176,12 +177,21 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
-        let currentTime = player.currentTime();
-        if(currentTime > 1 && !update){
-            soundEffect.currentTime = currentTime;
+        // let currentTime = player.currentTime();
+        // if(currentTime > 0 && !update){
+        //     soundEffect.currentTime = currentTime;
+        //     console.log('Update proceeded!');
+        //     console.log(soundEffect.readyState);
+        //     update = true;
+        // }
+        let currentTime = soundEffect.currentTime;
+        if(currentTime > 0 && !update){
+            player.currentTime(currentTime);
             console.log('Update proceeded!');
+            console.log(soundEffect.readyState);
             update = true;
         }
+        
     }, SPATIALIZATION_UPDATE_MS);
 
 
