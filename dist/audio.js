@@ -127,22 +127,35 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     this.rotator = new ambisonics.sceneRotator(this.context, this.order);
     var rotator = this.rotator;
     console.log(this.rotator);
-
     this.decoder = new ambisonics.binDecoder(this.context, this.order);
-    let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
-        this.decoder.updateFilters(buffer);
-        decodingFiltersLoaded = true;
-    });
-    loaderFilters.load();
+    // let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
+    //     this.decoder.updateFilters(buffer);
+    //     decodingFiltersLoaded = true;
+    // });
+    // loaderFilters.load();
+
+    var assignSample2Filters = function(decodedBuffer) {
+        decoder.updateFilters(decodedBuffer);
+    }
+    function loadSample(url, doAfterLoading) {
+        var fetchSound = new XMLHttpRequest(); // Load the Sound with XMLHttpRequest
+        fetchSound.open("GET", url, true); // Path to Audio File
+        fetchSound.responseType = "arraybuffer"; // Read as Binary Data
+        fetchSound.onload = function() {
+            context.decodeAudioData(fetchSound.response, doAfterLoading, console.log('Error'));
+        }
+        fetchSound.send();
+    };
+    loadSample(IR_PATH + 'mls_o1_01-04ch.wav', assignSample2Filters);
 
     // this.audioNode.connect(this.rotator.in);
     // this.rotator.out.connect(this.decoder.in);
     // this.decoder.out.connect(context.destination);
 
     this.audioNode.connect(this.merger,0,0);
-    this.audioNode.connect(this.merger,0,1);
+    this.audioNode.connect(this.merger,0,3);
     this.audioNode2.connect(this.merger,0,2);
-    this.audioNode2.connect(this.merger,0,3);
+    this.audioNode2.connect(this.merger,0,1);
 
     this.merger.connect(this.rotator.in)
     this.rotator.out.connect(this.decoder.in);
