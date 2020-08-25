@@ -75,43 +75,53 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     this.context = new AudioContext;
     console.log(this.context);
     var context = this.context;
+    unlockAudioContext(this.context);
+    function unlockAudioContext(audioCtx) {
+        if (context.state !== 'suspended') return;
+        const b = document.body;
+        const events = ['touchstart','touchend', 'mousedown','keydown'];
+        events.forEach(e => b.addEventListener(e, unlock, false));
+        function unlock() { audioCtx.resume().then(clean); }
+        function clean() { events.forEach(e => b.removeEventListener(e, unlock)); console.log(audioCtx.state); }
+      }
+
     var allAudio = true;
     soundEffect.src = './assets/' + videoToLoad + 'WY.mp3';
     soundEffect2.src = './assets/' + videoToLoad + 'ZX.mp3';
     soundEffect.load();
-    soundEffect2.load();
+    //soundEffect2.load();
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     // const audio1 = new Audio();
     // audio1.src = './assets/' + videoToLoad + '.mp3';
     this.splitter = context.createChannelSplitter(4);
     this.merger = context.createChannelMerger(4);
     
-    this.audioNode = context.createMediaElementSource(soundEffect);
-    this.audioNode2 = context.createMediaElementSource(soundEffect2);
+    //this.audioNode = context.createMediaElementSource(soundEffect);
+    // this.audioNode2 = context.createMediaElementSource(soundEffect2);
 
-    this.audioNode.channelCount = 4;
-    this.audioNode2.channelCount = 4;
+    // this.audioNode.channelCount = 4;
+    // this.audioNode2.channelCount = 4;
+
+    // this.context.createGain();
+    // console.log(this.context.state); // running
 
     var tapped = function() {
         if(allAudio) {
-            soundEffect.start();
+            soundEffect.play();
             soundEffect.pause();
             soundEffect.currentTime = 0;
-            soundEffect2.start();
-            soundEffect2.pause();
-            soundEffect2.currentTime = 0;
             allAudio = false;
-            context.resume();
+            console.log('AudioContext playback resumed successfully');
         }
     };
 
-    document.querySelector('button').addEventListener('click', function () {
-        context.resume().then(() => {
-            console.log('AudioContext playback resumed successfully');
-        });
-    });
+    // // document.querySelector('button').addEventListener('click', function () {
+    // //     context.resume().then(() => {
+    // //         console.log('AudioContext playback resumed successfully');
+    // //     });
+    // // });
 
-    document.body.addEventListener('touchstart', tapped, false);
+    // document.body.addEventListener('touchstart', tapped, false);
 
     this.order = 1;
 
@@ -126,23 +136,24 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     });
     loaderFilters.load();
 
-    this.audioNode.connect(this.rotator.in);
-    this.rotator.out.connect(this.decoder.in);
-    this.decoder.out.connect(context.destination);
+    // this.audioNode.connect(this.rotator.in);
+    // this.rotator.out.connect(this.decoder.in);
+    // this.decoder.out.connect(context.destination);
 
-    this.audioNode.connect(this.merger,0,0);
-    this.audioNode.connect(this.merger,0,1);
-    this.audioNode2.connect(this.merger,0,2);
-    this.audioNode2.connect(this.merger,0,3);
+    // this.audioNode.connect(this.merger,0,0);
+    // this.audioNode.connect(this.merger,0,1);
+    // this.audioNode2.connect(this.merger,0,2);
+    // this.audioNode2.connect(this.merger,0,3);
 
-    this.merger.connect(this.rotator.in)
-    this.rotator.out.connect(this.decoder.in);
-    this.decoder.out.connect(context.destination);
+    // this.merger.connect(this.rotator.in)
+    // this.rotator.out.connect(this.decoder.in);
+    // this.decoder.out.connect(context.destination);
+    //this.audioNode.connect(context.destination);
 
     player.on("play", function () {
         console.log("Play");
         soundEffect.play();
-        soundEffect2.play();
+        //soundEffect2.play();
     });
 
     player.on("pause", function () {
