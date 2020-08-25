@@ -85,21 +85,18 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var tapped = function() {
         if(allAudio) {
-            audio1.play();
-            audio1.pause();
-            audio1.currentTime = 0;
-            this.context.resume();
+            context.resume();
             allAudio = false;
         }
     };
-
-    //document.body.addEventListener('touchstart', tapped, false);
 
     document.querySelector('button').addEventListener('click', function () {
         context.resume().then(() => {
             console.log('AudioContext playback resumed successfully');
         });
     });
+
+    document.body.addEventListener('touchstart', tapped, false);
 
     this.order = 1;
 
