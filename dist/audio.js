@@ -69,7 +69,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
-    const  soundEffect = new Audio();
+    //const  soundEffect = new Audio();
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext;
     console.log(this.context);
@@ -79,41 +79,44 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     this.audio1 = new Audio();
     this.audio1.src = './assets/' + videoToLoad + '.flac';
-    this.audioNode = context.createMediaElementSource(this.audio1);
+    // this.audioNode = context.createMediaElementSource(this.audio1);
 
     var audio1 = this.audio1;
 
     var tapped = function() {
         if(allAudio) {
-            context.resume();
+            audio1.start();
+            audio1.pause();
+            audio1.currentTime = 0;
+            //context.resume();
             allAudio = false;
         }
     };
 
-    document.querySelector('button').addEventListener('click', function () {
-        context.resume().then(() => {
-            console.log('AudioContext playback resumed successfully');
-        });
-    });
+    // document.querySelector('button').addEventListener('click', function () {
+    //     context.resume().then(() => {
+    //         console.log('AudioContext playback resumed successfully');
+    //     });
+    // });
 
     document.body.addEventListener('touchstart', tapped, false);
 
     this.order = 1;
 
-    this.rotator = new ambisonics.sceneRotator(this.context, this.order);
-    var rotator = this.rotator;
-    console.log(this.rotator);
+    // this.rotator = new ambisonics.sceneRotator(this.context, this.order);
+    // var rotator = this.rotator;
+    // console.log(this.rotator);
 
-    this.decoder = new ambisonics.binDecoder(this.context, this.order);
-    let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
-        this.decoder.updateFilters(buffer);
-        decodingFiltersLoaded = true;
-    });
-    loaderFilters.load();
+    // this.decoder = new ambisonics.binDecoder(this.context, this.order);
+    // let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
+    //     this.decoder.updateFilters(buffer);
+    //     decodingFiltersLoaded = true;
+    // });
+    // loaderFilters.load();
 
-    this.audioNode.connect(this.rotator.in);
-    this.rotator.out.connect(this.decoder.in);
-    this.decoder.out.connect(context.destination);
+    // this.audioNode.connect(this.rotator.in);
+    // this.rotator.out.connect(this.decoder.in);
+    // this.decoder.out.connect(context.destination);
 
     player.on("play", function () {
         console.log("Play");
@@ -138,9 +141,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     });
 
     setInterval(function () {
-        rotator.yaw = -THETA * 180. / Math.PI +180;
-        rotator.pitch = PHI * 180. / Math.PI -90;
-        rotator.updateRotMtx();
+        // rotator.yaw = -THETA * 180. / Math.PI +180;
+        // rotator.pitch = PHI * 180. / Math.PI -90;
+        // rotator.updateRotMtx();
         let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
             audio1.currentTime = currentTime;
