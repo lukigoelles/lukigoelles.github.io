@@ -68,7 +68,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }
 }
 
- if (true) {
+ if (normalAudio) {
     const  soundEffect = new Audio();
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext;
