@@ -69,24 +69,24 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
-    //const  soundEffect = new Audio();
+    const soundEffect = new Audio();
     // var AudioContext = window.AudioContext || window.webkitAudioContext;
     // this.context = new AudioContext;
     // console.log(this.context);
     // var context = this.context;
     var allAudio = true;
-    // soundEffect.src = './assets/' + videoToLoad + '0.mp3';
+    soundEffect.src = './assets/' + videoToLoad + '.flac';
+    soundEffect.load();
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
-    const audio1 = new Audio();
-    audio1.src = './assets/' + videoToLoad + '.mp3';
+    // const audio1 = new Audio();
+    // audio1.src = './assets/' + videoToLoad + '.mp3';
     // this.audioNode = context.createMediaElementSource(this.audio1);
 
     var tapped = function() {
         if(allAudio) {
-            audio1.start();
-            audio1.pause();
-            audio1.currentTime = 0;
-            //context.resume();
+            soundEffect.start();
+            soundEffect.pause();
+            soundEffect.currentTime = 0;
             allAudio = false;
         }
     };
@@ -99,7 +99,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     document.body.addEventListener('touchstart', tapped, false);
 
-    this.order = 1;
+    //this.order = 1;
 
     // this.rotator = new ambisonics.sceneRotator(this.context, this.order);
     // var rotator = this.rotator;
@@ -118,37 +118,37 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("play", function () {
         console.log("Play");
-        audio1.play();
+        soundEffect.play();
     });
 
     player.on("pause", function () {
-        audio1.pause();
+        soundEffect.pause();
         update = false;
     });
 
     player.on("seeked", function () {
-        audio1.currentTime = this.currentTime();
+        soundEffect.currentTime = this.currentTime();
     });
 
 
     player.on("volumechange", function () {
         if (this.muted())
-            audio1.volume = 0;
+        soundEffect.volume = 0;
         else
-            audio1.volume = this.volume();
+        soundEffect.volume = this.volume();
     });
 
-    setInterval(function () {
-        // rotator.yaw = -THETA * 180. / Math.PI +180;
-        // rotator.pitch = PHI * 180. / Math.PI -90;
-        // rotator.updateRotMtx();
-        let currentTime = player.currentTime();
-        if(currentTime > 0 && !update){
-            audio1.currentTime = currentTime;
-            console.log('Update proceeded!');
-            update = true;
-        }
-    }, SPATIALIZATION_UPDATE_MS);
+    // setInterval(function () {
+    //     // rotator.yaw = -THETA * 180. / Math.PI +180;
+    //     // rotator.pitch = PHI * 180. / Math.PI -90;
+    //     // rotator.updateRotMtx();
+    //     let currentTime = player.currentTime();
+    //     if(currentTime > 0 && !update){
+    //         soundEffect.currentTime = currentTime;
+    //         console.log('Update proceeded!');
+    //         update = true;
+    //     }
+    // }, SPATIALIZATION_UPDATE_MS);
 
 
 } else {
