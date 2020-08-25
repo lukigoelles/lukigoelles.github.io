@@ -9,10 +9,10 @@
   profiles="urn:webm:dash:profile:webm-on-demand:2012">
 <Period id="0" start="PT0S" duration="PT225.89S" >
 <AdaptationSet id="0" mimeType="audio/webm" codecs="opus" audioSamplingRate="48000" bitstreamSwitching="true" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
-<Representation id="0" bandwidth="1716299">
+<Representation id="0" bandwidth="1716306">
 <BaseURL>DemoVideo.webm</BaseURL>
 <SegmentBase
-  indexRange="45343866-45344804">
+  indexRange="45339143-45340081">
 <Initialization
   range="0-637" />
 </SegmentBase>
