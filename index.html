@@ -47,9 +47,10 @@
 <body>
   <b>Interactive SoundAround immersive video player</b>
   <br><br>
-  Please use Firefox, Chrome or Opera for immersive Audio. To hear immersive Audio please use headphones.<br><br>
-  On mobile devices: The video is started without sound and will be restarted, when audio is loaded. <br><br>
-  If you have a surround system (5.1) connected, the player will detect it and decode audio to 5.1.
+  You can use the interactive SoundAround immersive video player on PC/Laptop and also on mobile devices. <br>
+  Please note, that on mobile devices sound is directionally limited by first order Ambisonics. <br>
+  You can choose between different playback layouts: Stereo, Binaural and 5.1 Surround. 5.1 will only be available, if you use Firefox or a chromium-based Browser, like Chrome, Opera, Microsoft Edge. If you choose binaural, please use Headphones. For stereo playback scenarios, please note that you can only hear, what you see in the video window. <br><br>
+  On mobile devices, you can move the video by moving your device (except iPad). On Apple devices you have to click on the button below to allow mobile device tracking.
 
   <section class="main-content">
     <h3>
@@ -106,10 +107,14 @@ function isMobile() {
         }
     });
 }(window, window.videojs));
-    </script>
-
+    </script> Select your desired playback setup:
+    <select name="Decoder" id="Decoder">
+      <option value="1">Stereo</option>
+      <option value="2">Binaural (use Headphones!)</option>
+    </select>
+    <script src="dist/audio.js"></script>
   </section>
-  <script src="dist/audio.js"></script>
+
 </body>
 
 </html>

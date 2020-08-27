@@ -124,6 +124,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var rotator = this.rotator;
     console.log(this.rotator);
     this.decoder = new ambisonics.binDecoder(this.context, this.order);
+    var binauralDecoder = this.decoder;
     // let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
     //     this.decoder.updateFilters(buffer);
     //     decodingFiltersLoaded = true;
@@ -148,10 +149,94 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // this.rotator.out.connect(this.decoder.in);
     // this.decoder.out.connect(context.destination);
 
-    this.audioNode.connect(this.rotator.in)
-    this.rotator.out.connect(this.decoder.in);
-    this.decoder.out.connect(context.destination);
+    // this.audioNode.connect(this.rotator.in)
+    // this.rotator.out.connect(this.decoder.in);
+    // this.decoder.out.connect(context.destination);
     //this.audioNode.connect(context.destination);
+
+    this.mtx = numeric.identity(4);
+    var request = new XMLHttpRequest();
+    var url = './dist/DecoderStereo.json';
+    request.open("GET",url,false);
+    request.send(null);
+    var jsonData = JSON.parse(request.responseText);
+    for (let i=0; i<4; i++){
+        this.mtx[i] = jsonData.Decoder.Matrix[i];
+    }
+
+    var mtx = this.mtx;
+
+
+    var Decoder = [];
+    Decoder.in = this.context.createChannelSplitter(4);
+    Decoder.out = this.context.createChannelMerger(4);
+    this.gain = new Array(4);
+    this.filter = new Array(4);
+    this.nCh = 4;
+    var NOut = 2;
+    for (var row = 0; row < this.nCh; row++) {
+        this.gain[row] = new Array(this.nCh);
+        this.filter[row] = context.createBiquadFilter();
+        for (var col = 0; col < this.nCh; col++) {
+            this.gain[row][col] = this.context.createGain();
+            if (col>= NOut){
+                this.gain[row][col].gain.value = 0;
+            } else{
+                this.gain[row][col].gain.value = this.mtx[row][col];
+            }
+            if (row>= NOut){
+                this.gain[row][col].gain.value = 0;
+            } else{
+                this.gain[row][col].gain.value = this.mtx[row][col];
+            }
+            
+            if (row == 3){
+                this.filter[row].type = "lowpass";
+            }else{
+                this.filter[row].type = "highpass";
+            }
+            this.filter[row].frequency.setValueAtTime(100, context.currentTime);
+            Decoder.in.connect(this.gain[row][col],col,0);
+            this.gain[row][col].connect(this.filter[row]).connect(Decoder.out, 0, row);
+        }
+    }
+
+    var gain = this.gain;
+    var filter = this.filter;
+
+    // context.destination.channelCount = 2;
+    // this.context.destination.channelInterpretation = "discrete";
+    context = this.context;
+    this.audioNode.connect(this.rotator.in);
+    this.rotator.out.connect(Decoder.in);
+    Decoder.out.connect(this.context.destination);
+    
+
+    // } else{
+    //     this.sourceNode.connect(this.rotator.in);
+    //     this.rotator.out.connect(this.decoder.in);
+    //     this.decoder.out.connect(this.masterGain);
+    //     this.masterGain.connect(this.context.destination);
+
+    // }
+
+    var select = document.getElementById("Decoder");
+    select.onchange = function(){
+        if(select.selectedIndex == 1){
+            rotator.out.disconnect();
+            Decoder.out.disconnect();
+
+            rotator.out.connect(binauralDecoder.in);
+            binauralDecoder.out.connect(context.destination);
+        }else if(select.selectedIndex == 0){
+            rotator.out.disconnect();
+            Decoder.out.disconnect();
+            
+            rotator.out.connect(Decoder.in);
+            Decoder.out.connect(context.destination);
+        }
+    };
+    
 
     player.on("play", function () {
         console.log("Play");
@@ -160,7 +245,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("pause", function () {
         soundEffect.pause();
-        update = false;
+        update2 = false;
     });
 
     player.on("seeked", function () {
@@ -193,6 +278,14 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             console.log('Update proceeded!');
             console.log(soundEffect.readyState);
             update = true;
+        }
+        let currentTime2 = player.currentTime();
+        if(currentTime > 0 && !update2){
+            soundEffect.currentTime = currentTime2;
+            player.controls(true);
+            console.log('Update proceeded!');
+            console.log(soundEffect.readyState);
+            update2 = true;
         }
         
     }, SPATIALIZATION_UPDATE_MS);
@@ -227,6 +320,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     console.log(this.rotator);
 
     this.decoder = new ambisonics.binDecoder(this.context, this.order);
+    var binauralDecoder = this.decoder;
     let loaderFilters = new ambisonics.HOAloader(context, this.order, IR_PATH + 'mls_o' + this.order + '.wav', (buffer) => {
         this.decoder.updateFilters(buffer);
         decodingFiltersLoaded = true;
@@ -243,11 +337,11 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     context.destination.maxChannel = 6;
     console.log(maxChannel);
 
-    if (maxChannel >= 6){
+    // if (maxChannel >= 6){
         // Decoder
     this.mtx = numeric.identity(this.sourceNode.channelCount);
     var request = new XMLHttpRequest();
-    var url = './dist/Decoder.json';
+    var url = './dist/DecoderStereo.json';
     request.open("GET",url,false);
     request.send(null);
     var jsonData = JSON.parse(request.responseText);
@@ -264,7 +358,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     this.gain = new Array(this.sourceNode.channelCount);
     this.filter = new Array(this.sourceNode.channelCount);
     this.nCh = this.sourceNode.channelCount;
-    var NOut = maxChannel;
+    var NOut = 2;
     for (var row = 0; row < this.nCh; row++) {
         this.gain[row] = new Array(this.nCh);
         this.filter[row] = context.createBiquadFilter();
@@ -291,10 +385,64 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             this.gain[row][col].connect(this.filter[row]).connect(Decoder.out, 0, row);
         }
     }
+
+    if(maxChannel >= 6){
+        let select = document.getElementById("Decoder");
+        var option = document.createElement('option');
+        option.text = option.value = '5.1 Surround';
+        select.add(option, 3);
+        this.mtx2 = numeric.identity(this.sourceNode.channelCount);
+        var request2 = new XMLHttpRequest();
+        var url2 = './dist/Decoder.json';
+        request2.open("GET",url2,false);
+        request2.send(null);
+        var jsonData2 = JSON.parse(request2.responseText);
+        for (let i=0; i<16; i++){
+            this.mtx2[i] = jsonData2.Decoder.Matrix[i];
+        }
+    
+        var mtx2 = this.mtx2;
+    
+    
+        var Decoder2 = [];
+        Decoder2.in = this.context.createChannelSplitter(this.sourceNode.channelCount);
+        Decoder2.out = this.context.createChannelMerger(this.sourceNode.channelCount);
+        this.gain2 = new Array(this.sourceNode.channelCount);
+        this.filter2 = new Array(this.sourceNode.channelCount);
+        this.nCh2 = this.sourceNode.channelCount;
+        NOut = 6;
+        for (let row = 0; row < this.nCh; row++) {
+            this.gain2[row] = new Array(this.nCh);
+            this.filter2[row] = context.createBiquadFilter();
+            for (let col = 0; col < this.nCh; col++) {
+                this.gain2[row][col] = this.context.createGain();
+                if (col>= NOut){
+                    this.gain2[row][col].gain.value = 0;
+                } else{
+                    this.gain2[row][col].gain.value = this.mtx2[row][col];
+                }
+                if (row>= NOut){
+                    this.gain2[row][col].gain.value = 0;
+                } else{
+                    this.gain2[row][col].gain.value = this.mtx2[row][col];
+                }
+                
+                if (row == 3){
+                    this.filter2[row].type = "lowpass";
+                }else{
+                    this.filter2[row].type = "highpass";
+                }
+                this.filter2[row].frequency.setValueAtTime(100, context.currentTime);
+                Decoder2.in.connect(this.gain2[row][col],col,0);
+                this.gain2[row][col].connect(this.filter2[row]).connect(Decoder2.out, 0, row);
+            }
+        }
+
+    }
     var gain = this.gain;
     var filter = this.filter;
 
-    context.destination.channelCount = NOut;
+    context.destination.channelCount = 2;
     this.context.destination.channelInterpretation = "discrete";
     context = this.context;
     this.sourceNode.connect(this.rotator.in);
@@ -303,14 +451,46 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // this.rotator.out.connect(this.decoder.in);
     // this.decoder.out.connect(this.masterGain);
     this.masterGain.connect(this.context.destination);
+    
 
-    } else{
-        this.sourceNode.connect(this.rotator.in);
-        this.rotator.out.connect(this.decoder.in);
-        this.decoder.out.connect(this.masterGain);
-        this.masterGain.connect(this.context.destination);
+    // } else{
+    //     this.sourceNode.connect(this.rotator.in);
+    //     this.rotator.out.connect(this.decoder.in);
+    //     this.decoder.out.connect(this.masterGain);
+    //     this.masterGain.connect(this.context.destination);
 
-    }
+    // }
+
+    var select = document.getElementById("Decoder");
+    select.onchange = function(){
+        if(select.selectedIndex == 1){
+            rotator.out.disconnect();
+            if (typeof Decoder2 != "undefined") {
+                Decoder2.out.disconnect();
+             }
+            Decoder.out.disconnect();
+            context.destination.channelCount = 2;
+
+            rotator.out.connect(binauralDecoder.in);
+            binauralDecoder.out.connect(Master);
+        }else if(select.selectedIndex == 0){
+            rotator.out.disconnect();
+            Decoder.out.disconnect();
+            context.destination.channelCount = 2;
+            if (typeof Decoder2 != "undefined") {
+                Decoder2.out.disconnect();
+             }
+            
+            rotator.out.connect(Decoder.in);
+            Decoder.out.connect(Master);
+        }else if(select.selectedIndex == 2){
+            context.destination.channelCount = 6;
+            rotator.out.disconnect();
+            Decoder.out.disconnect();
+            rotator.out.connect(Decoder2.in);
+            Decoder2.out.connect(Master);
+        }
+    };
     
 
     this.audioSetupComplete = true;
