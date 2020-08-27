@@ -240,6 +240,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     this.sourceNode.channelCount = (this.order + 1) * (this.order + 1);
     let maxChannel = context.destination.maxChannelCount;
+    context.destination.maxChannel = 6;
     console.log(maxChannel);
 
     if (maxChannel >= 6){
@@ -263,7 +264,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     this.gain = new Array(this.sourceNode.channelCount);
     this.filter = new Array(this.sourceNode.channelCount);
     this.nCh = this.sourceNode.channelCount;
-    var NOut = 6;
+    var NOut = maxChannel;
     for (var row = 0; row < this.nCh; row++) {
         this.gain[row] = new Array(this.nCh);
         this.filter[row] = context.createBiquadFilter();
@@ -294,6 +295,8 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var filter = this.filter;
 
     context.destination.channelCount = NOut;
+    this.context.destination.channelInterpretation = "discrete";
+    context = this.context;
     this.sourceNode.connect(this.rotator.in);
     this.rotator.out.connect(Decoder.in);
     Decoder.out.connect(this.masterGain);
