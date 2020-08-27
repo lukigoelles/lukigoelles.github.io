@@ -300,6 +300,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     console.log(this.context);
     var context = this.context;
     var update = false;
+    var update2 = true;
 
     //this.playbackEventHandler = new PlaybackEventHandler(this.context);
 
