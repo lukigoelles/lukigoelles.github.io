@@ -68,7 +68,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }
 }
 
- if (normalAudio) {
+ if (true) {
     const soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     soundEffect.autoload = true;
@@ -103,8 +103,8 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var tapped = function() {
         if(allAudio) {
+            //player.controls(false);
             soundEffect.load();
-            player.controls(false);
             allAudio = false;
             console.log('AudioContext playback resumed successfully');
         }
@@ -116,7 +116,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // //     });
     // // });
 
-     document.body.addEventListener('touchstart', tapped, false);
+    document.body.addEventListener('touchstart', tapped, false);
 
     this.order = 1;
 
