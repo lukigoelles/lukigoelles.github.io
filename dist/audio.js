@@ -4,6 +4,7 @@ var audioElementsObjects = [];
 var GainNodes = [];
 var sourceNodesObjects = [];
 var a = [];
+var overlay = false;
 
 window.onload = function () {
 
@@ -69,7 +70,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
-    const soundEffect = new Audio();
+    var soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     soundEffect.autoload = true;
     console.log(soundEffect);
@@ -100,11 +101,20 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     // this.context.createGain();
     // console.log(this.context.state); // running
+    function loadsoundSource(){
+        soundEffect.load();
+    }
+
+    async function loadaudio() {
+        document.getElementById('overlay').style.display = "block";
+        overlay = true;
+        await loadsoundSource();
+    }
 
     var tapped = function() {
         if(allAudio) {
             //player.controls(false);
-            soundEffect.load();
+            loadaudio();
             allAudio = false;
             console.log('AudioContext playback resumed successfully');
         }
@@ -237,10 +247,16 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         }
     };
     
-
+    var holdonplay = false;
     player.on("play", function () {
         console.log("Play");
-        soundEffect.play();
+        if (player.currentTime() == 0){
+            holdonplay = true;
+        }
+        else {
+            soundEffect.play();
+            holdonplay = false;
+        }
     });
 
     player.on("pause", function () {
@@ -271,6 +287,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //     console.log(soundEffect.readyState);
         //     update = true;
         // }
+        if(soundEffect.readyState == 4 && overlay) {
+            document.getElementById('overlay').style.display = "none";
+            overlay = false;
+        }
         let currentTime = soundEffect.currentTime;
         if(currentTime > 0 && !update){
             player.currentTime(currentTime);
@@ -286,6 +306,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             console.log('Update proceeded!');
             console.log(soundEffect.readyState);
             update2 = true;
+        }
+        if (holdonplay && player.currentTime() > 0) {
+            soundEffect.play();
+            holdonplay = false;
         }
         
     }, SPATIALIZATION_UPDATE_MS);
