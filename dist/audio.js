@@ -13,9 +13,12 @@ window.onload = function () {
   
         // Everything here is just a lazy banner. You can do the banner your way.
         const banner = document.createElement('div')
+        //const banner = document.getElementById('banner');
+        const video = document.getElementById('footer');
         banner.innerHTML = `<div style="z-index: 1; position: absolute; width: 100%; background-color:#000; color: #fff"><p style="padding: 10px">Click here to enable DeviceMotion</p></div>`
         banner.onclick = ClickRequestDeviceMotionEvent // You NEED to bind the function into a onClick event. An artificial 'onClick' will NOT work.
-        document.querySelector('body').appendChild(banner)
+        document.querySelector('body').appendChild(banner);
+        video.insertBefore(banner,video.childNodes[0]);
     }
   }
   
