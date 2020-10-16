@@ -594,7 +594,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function() {
         delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
         if(synccounter < 10){
-            if((!isSync && audioPlayer.getVideoElement().currentTime.currentTime() > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && audioPlayer.isReady() && player.readyState() == 4){
+            if((!isSync && audioPlayer.getVideoElement().currentTime > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && audioPlayer.isReady() && player.readyState() == 4){
                 audioPlayer.getVideoElement().currentTime = player.currentTime();
                 console.log('Sync!');
                 isSync = true;
