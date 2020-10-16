@@ -318,22 +318,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             console.log('Update proceeded!');
             update = true;
         }
-        else{
-            delay = player.currentTime()-soundEffect.currentTime;
-        if(synccounter < 10){
-            if((!isSync && soundEffect.currentTime > 0 || Math.abs(player.currentTime()-soundEffect.currentTime)>0.07)){
-                console.log(delay);
-                soundEffect.currentTime = player.currentTime()+delay;
-                console.log('Sync!');
-                isSync = true;
-                synccounter = synccounter + 1;
-        }
-        } else if (synccounter == 10) {
-            soundEffect.currentTime = soundEffect.currentTime-delay;
-            synccounter = synccounter + 1;
-            //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
-        }
-        }
         
     }, SPATIALIZATION_UPDATE_MS);
 
@@ -605,7 +589,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             update = true;
         }
         else{
-            delay = player.currentTime()-audioElementsObjects.currentTime;
+            delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
         if(synccounter < 10){
             if((!isSync && audioPlayer.getVideoElement().currentTime > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07)){
                 audioPlayer.getVideoElement().currentTime = player.currentTime();
