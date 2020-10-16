@@ -9,10 +9,10 @@
   profiles="urn:webm:dash:profile:webm-on-demand:2012">
 <Period id="0" start="PT0S" duration="PT251.1S" >
 <AdaptationSet id="0" mimeType="audio/webm" codecs="opus" audioSamplingRate="48000" bitstreamSwitching="true" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
-<Representation id="0" bandwidth="1633265">
+<Representation id="0" bandwidth="1633160">
 <BaseURL>Rania.webm</BaseURL>
 <SegmentBase
-  indexRange="49409674-49410716">
+  indexRange="49356098-49357140">
 <Initialization
   range="0-644" />
 </SegmentBase>
