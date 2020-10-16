@@ -5,6 +5,10 @@ var GainNodes = [];
 var sourceNodesObjects = [];
 var a = [];
 var overlay = false;
+var delay = 0;
+var synccounter = 0;
+var waiting = false;
+var isSync = false;
 
 window.onload = function () {
 
@@ -59,7 +63,7 @@ document.getElementById('videojs-panorama-player').setAttribute('poster','./asse
 
 var player = window.player;
 var volumeMaster = player.volume();
-player.src('./assets/' + videoToLoad + '.m4v');
+player.src('./assets/' + videoToLoad + '.mp4');
 this.audioElement = new Audio();
 
 if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === '') {
@@ -535,11 +539,29 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     player.on("pause", function () {
         audioPlayer.pause();
         update = false;
+        synccounter = 0;
+        isSync = false;
     });
 
     player.on("seeked", function () {
-        let currTime = this.currentTime();
-        audioPlayer.getVideoElement().currentTime = currTime;
+        player.addClass("vjs-seeking");
+        let work = async () => {
+            await sleep(10);
+            waiting = true;
+            movie.pause();
+            audioElementsObjects.pause();
+            await sleep(1500);
+            let time = movie.currentTime();
+            audioPlayer.getVideoElement().currentTime = time;
+            //movie.currentTime(audioElementsObjects.currentTime);
+            movie.removeClass("vjs-seeking");
+            waiting = false;
+            movie.play();
+            //audioElementsObjects.play();
+            synccounter = 0;
+            isSync = false;
+            }
+        work();
     })
 
     player.on("volumechange", function () {
@@ -556,19 +578,39 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
-        let currentTime = player.currentTime();
-        if(currentTime > 0 && !update){
-            audioPlayer.getVideoElement().currentTime = currentTime;
-            console.log('Update proceeded!');
-            update = true;
-        }
+        // let currentTime = player.currentTime();
+        // if(currentTime > 0 && !update){
+        //     audioPlayer.getVideoElement().currentTime = currentTime;
+        //     console.log('Update proceeded!');
+        //     update = true;
+        // }
 
     }, SPATIALIZATION_UPDATE_MS);
+
+    setInterval(function() {
+        delay = movie.currentTime()-audioElementsObjects.currentTime;
+        if(synccounter < 10){
+            if((!isSync && movie.currentTime() > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && audioElementsObjects.isReady() && movie.readyState() == 4){
+                audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay;
+                console.log('Sync!');
+                isSync = true;
+                synccounter = synccounter + 1;
+        }
+        } else if (synccounter == 10) {
+            audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay;
+            synccounter = synccounter + 1;
+            //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
+        }
+    }, 10);
 
     document.querySelector('button').addEventListener('click', function () {
         context.resume().then(() => {
             console.log('AudioContext playback resumed successfully');
         });
     });
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+     }
 
 }
