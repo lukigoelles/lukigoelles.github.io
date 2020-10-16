@@ -77,6 +77,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
+     console.log('Here');
     var soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     console.log(soundEffect);
@@ -317,16 +318,17 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             update = true;
         }
         else{
-            delay = player.currentTime()-soundEffect.currentTimee;
+            delay = player.currentTime()-soundEffect.currentTime;
         if(synccounter < 10){
             if((!isSync && soundEffect.currentTime > 0 || Math.abs(player.currentTime()-soundEffect.currentTime)>0.07)){
-                soundEffect.currentTime = player.currentTime();
+                console.log(delay);
+                soundEffect.currentTime = player.currentTime()+delay;
                 console.log('Sync!');
                 isSync = true;
                 synccounter = synccounter + 1;
         }
         } else if (synccounter == 10) {
-            soundEffect.currentTime = soundEffect.currentTime+delay;
+            soundEffect.currentTime = soundEffect.currentTime-delay;
             synccounter = synccounter + 1;
             //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
         }
