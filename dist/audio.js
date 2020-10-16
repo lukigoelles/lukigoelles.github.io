@@ -589,7 +589,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             update = true;
         }
         else{
-            delay = movie.currentTime()-audioElementsObjects.currentTime;
+            delay = player.currentTime()-audioElementsObjects.currentTime;
         if(synccounter < 10){
             if((!isSync && audioPlayer.getVideoElement().currentTime > 0 || Math.abs(movie.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07)){
                 audioPlayer.getVideoElement().currentTime = player.currentTime();
