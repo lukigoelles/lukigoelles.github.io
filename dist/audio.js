@@ -582,12 +582,12 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
-        // let currentTime = player.currentTime();
-        // if(currentTime > 0 && !update){
-        //     audioPlayer.getVideoElement().currentTime = currentTime;
-        //     console.log('Update proceeded!');
-        //     update = true;
-        // }
+        let currentTime = player.currentTime();
+        if(currentTime > 0 && !update){
+            audioPlayer.getVideoElement().currentTime = currentTime;
+            console.log('Update proceeded!');
+            update = true;
+        }
 
     }, SPATIALIZATION_UPDATE_MS);
 
