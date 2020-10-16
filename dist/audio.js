@@ -601,7 +601,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 synccounter = synccounter + 1;
         }
         } else if (synccounter == 10) {
-            player.currentTime() = audioPlayer.getVideoElement().currentTime;
+            audioPlayer.getVideoElement().currentTime = player.currentTime()+delay;
             synccounter = synccounter + 1;
             //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
         }
