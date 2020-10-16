@@ -548,15 +548,15 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         let work = async () => {
             await sleep(10);
             waiting = true;
-            movie.pause();
-            audioElementsObjects.pause();
+            player.pause();
+            audioPlayer.pause();
             await sleep(1500);
             let time = movie.currentTime();
             audioPlayer.getVideoElement().currentTime = time;
             //movie.currentTime(audioElementsObjects.currentTime);
-            movie.removeClass("vjs-seeking");
+            player.removeClass("vjs-seeking");
             waiting = false;
-            movie.play();
+            player.play();
             //audioElementsObjects.play();
             synccounter = 0;
             isSync = false;
