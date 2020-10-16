@@ -536,6 +536,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             await isAVReady();
             audioPlayer.play();
         }
+        work();
         // camera.lookAt(this.camera.target);
     });
 
