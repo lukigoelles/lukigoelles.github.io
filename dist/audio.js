@@ -314,10 +314,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             console.log(soundEffect.readyState);
             update2 = true;
         }
-        if (holdonplay && player.currentTime() > 0) {
-            soundEffect.play();
-            holdonplay = false;
-        }
         
     }, SPATIALIZATION_UPDATE_MS);
 
