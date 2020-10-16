@@ -532,7 +532,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("play", function () {
         console.log("Play");
-        audioPlayer.play();
+        let work = async () => {
+            await isAVReady();
+            audioPlayer.play();
+        }
         // camera.lookAt(this.camera.target);
     });
 
@@ -590,14 +593,14 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function() {
         delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
         if(synccounter < 10){
-            if((!isSync && audioPlayer.getVideoElement().currentTime > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && audioPlayer.isReady() && player.readyState() == 4){
-                player.currentTime(audioPlayer.getVideoElement().currentTime);
+            if((!isSync && audioPlayer.getVideoElement().currentTime.currentTime() > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && audioPlayer.isReady() && player.readyState() == 4){
+                audioPlayer.getVideoElement().currentTime = player.currentTime();
                 console.log('Sync!');
                 isSync = true;
                 synccounter = synccounter + 1;
         }
         } else if (synccounter == 10) {
-            player.currentTime(audioPlayer.getVideoElement().currentTime);
+            player.currentTime() = audioPlayer.getVideoElement().currentTime;
             synccounter = synccounter + 1;
             //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
         }
@@ -611,6 +614,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+     }
+
+     function isAVReady(){
+         while(!audioPlayer.isReady())
+         {
+             console.log('Waiting');
+         }
      }
 
 }
