@@ -110,6 +110,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // console.log(this.context.state); // running
     function loadsoundSource(){
         soundEffect.load();
+        player.load();
     }
 
     async function loadaudio() {
