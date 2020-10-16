@@ -261,11 +261,29 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("pause", function () {
         soundEffect.pause();
-        update2 = false;
+        update = false;
     });
 
     player.on("seeked", function () {
-        soundEffect.currentTime = this.currentTime();
+        // soundEffect.currentTime = this.currentTime();
+        player.addClass("vjs-seeking");
+        let work = async () => {
+            await sleep(10);
+            waiting = true;
+            player.pause();
+            soundEffect.pause();
+            await sleep(1500);
+            let time = player.currentTime();
+            soundEffect.currentTime = time;
+            //movie.currentTime(audioElementsObjects.currentTime);
+            player.removeClass("vjs-seeking");
+            waiting = false;
+            player.play();
+            //audioElementsObjects.play();
+            synccounter = 0;
+            isSync = false;
+            }
+        work();
     });
 
 
@@ -291,21 +309,27 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             document.getElementById('overlay').style.display = "none";
             overlay = false;
         }
-        let currentTime = soundEffect.currentTime;
+
+        let currentTime = player.currentTime();
         if(currentTime > 0 && !update){
-            player.currentTime(currentTime);
-            player.controls(true);
+            soundEffect.currentTime = currentTime;
             console.log('Update proceeded!');
-            console.log(soundEffect.readyState);
             update = true;
         }
-        let currentTime2 = player.currentTime();
-        if(currentTime > 0 && !update2){
-            soundEffect.currentTime = currentTime2;
-            player.controls(true);
-            console.log('Update proceeded!');
-            console.log(soundEffect.readyState);
-            update2 = true;
+        else{
+            delay = player.currentTime()-soundEffect.currentTimee;
+        if(synccounter < 10){
+            if((!isSync && soundEffect.currentTime > 0 || Math.abs(player.currentTime()-soundEffect.currentTime)>0.07)){
+                soundEffect.currentTime = player.currentTime();
+                console.log('Sync!');
+                isSync = true;
+                synccounter = synccounter + 1;
+        }
+        } else if (synccounter == 10) {
+            soundEffect.currentTime = soundEffect.currentTime+delay;
+            synccounter = synccounter + 1;
+            //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
+        }
         }
         
     }, SPATIALIZATION_UPDATE_MS);
@@ -602,10 +626,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         });
     });
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-     }
-
      function isAVReady(){
          while(!audioPlayer.isReady())
          {
@@ -614,3 +634,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
      }
 
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
