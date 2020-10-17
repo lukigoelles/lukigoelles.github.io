@@ -78,7 +78,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
  if (normalAudio) {
      console.log('Here');
-    var soundEffect = nsew Audio();
+    var soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     console.log(soundEffect);
     var AudioContext = window.AudioContext || window.webkitAudioContext;
