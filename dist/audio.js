@@ -274,9 +274,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             waiting = true;
             player.pause();
             soundEffect.pause();
-            await sleep(1500);
+            await sleep(1000);
             let time = player.currentTime();
             soundEffect.currentTime = time;
+            await sleep(500);
             //movie.currentTime(audioElementsObjects.currentTime);
             player.removeClass("vjs-seeking");
             waiting = false;
