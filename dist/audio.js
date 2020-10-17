@@ -78,7 +78,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
  if (normalAudio) {
      console.log('Here');
-    var soundEffect = new Audio();
+    var soundEffect = nsew Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
     console.log(soundEffect);
     var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -277,7 +277,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             await sleep(1000);
             let time = player.currentTime();
             soundEffect.currentTime = time;
-            await sleep(500);
             //movie.currentTime(audioElementsObjects.currentTime);
             player.removeClass("vjs-seeking");
             waiting = false;
@@ -308,6 +307,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //     console.log(soundEffect.readyState);
         //     update = true;
         // }
+        delay = player.currentTime()-soundEffect.currentTime;
         if(soundEffect.readyState == 4 && overlay) {
             document.getElementById('overlay').style.display = "none";
             overlay = false;
@@ -321,7 +321,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         }
         
     }, SPATIALIZATION_UPDATE_MS);
-
 
 } else {
     player.controls(false);
