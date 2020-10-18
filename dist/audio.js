@@ -244,13 +244,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     select.onchange = function(){
         context.resume();
         player.controls(true);
-        if(select.selectedIndex == 1){
+        if(select.selectedIndex == 2){
             rotator.out.disconnect();
             Decoder.out.disconnect();
 
             rotator.out.connect(binauralDecoder.in);
             binauralDecoder.out.connect(context.destination);
-        }else if(select.selectedIndex == 0){
+        }else if(select.selectedIndex == 1){
             rotator.out.disconnect();
             Decoder.out.disconnect();
             
