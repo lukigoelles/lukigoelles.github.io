@@ -539,7 +539,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     player.controls(true);
 
     var audioPlayer = this.audioPlayer;
-
+    player.controls(false);
     player.on("play", function () {
         console.log("Play");
         let work = async () => {
