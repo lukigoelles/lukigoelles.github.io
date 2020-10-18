@@ -102,6 +102,13 @@
 
 		<!-- Highlights -->
 		<section class="main-content">
+			<b>First select your desired playback setup:</b>
+			<select name="Decoder" id="Decoder">
+			<option disabled selected value> -- Select your desired playback setup here -- </option>
+			  <option value="1">Stereo</option>
+			  <option value="2">Binaural (use Headphones!)</option>
+			</select>
+			<script src="dist/audio.js"></script>
 			<h3>
 			  <a id="videojs-panorama" class="anchor" href="#videojs-panorama" aria-hidden="true"><span aria-hidden="true"
 				  class="octicon octicon-link"></span></a></h3>
@@ -120,7 +127,6 @@
 			  <div id="text">Please wait, sound is loading!</div>
 			</div>
 			
-		
 			<script>
 			  var standalone = window.navigator.standalone,
 			userAgent = window.navigator.userAgent.toLowerCase(),
@@ -162,12 +168,7 @@
 				}
 			});
 		}(window, window.videojs));
-			</script> Select your desired playback setup:
-			<select name="Decoder" id="Decoder">
-			  <option value="1">Stereo</option>
-			  <option value="2">Binaural (use Headphones!)</option>
-			</select>
-			<script src="dist/audio.js"></script>
+			</script> 
 			<b>Instruction:</b><br>
 			You can use the interactive SoundAround immersive video player on PC/Laptop and also on mobile devices.
 			Please note, that on mobile devices sound is directionally limited by first order Ambisonics. <br>
