@@ -505,7 +505,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
         player.controls(true);
-        if(select.selectedIndex == 1){
+        if(select.selectedIndex == 2){
             rotator.out.disconnect();
             if (typeof Decoder2 != "undefined") {
                 Decoder2.out.disconnect();
@@ -515,7 +515,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
             rotator.out.connect(binauralDecoder.in);
             binauralDecoder.out.connect(Master);
-        }else if(select.selectedIndex == 0){
+        }else if(select.selectedIndex == 1){
             rotator.out.disconnect();
             Decoder.out.disconnect();
             context.destination.channelCount = 2;
@@ -525,7 +525,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             
             rotator.out.connect(Decoder.in);
             Decoder.out.connect(Master);
-        }else if(select.selectedIndex == 2){
+        }else if(select.selectedIndex == 3){
             context.destination.channelCount = 6;
             rotator.out.disconnect();
             Decoder.out.disconnect();
