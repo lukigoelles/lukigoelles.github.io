@@ -300,6 +300,11 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
+        if(soundEffect.readyState == 4 && overlay)
+        {
+            document.getElementById('overlay').style.display = "none";
+            overlay = false;
+        }
         
     }, SPATIALIZATION_UPDATE_MS);
 
