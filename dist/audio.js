@@ -78,7 +78,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
-     player.addClass('vjs-seeking');
      console.log('Here');
     var soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
@@ -137,7 +136,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     // // });
 
     document.body.addEventListener('touchstart', tapped, false);
-
+    player.addClass('vjs-seeking');
     this.order = 1;
 
     this.rotator = new ambisonics.sceneRotator(this.context, this.order);
