@@ -333,7 +333,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 player.play();
                 //audioElementsObjects.play();
                 synccounter = 0;
-                isSync = false;
+                isSync = true;
                 }
             work();
             //soundEffect.currentTime = player.currentTime()+0.1;
