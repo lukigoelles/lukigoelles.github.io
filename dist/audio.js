@@ -309,7 +309,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }, SPATIALIZATION_UPDATE_MS);
 
     setInterval(function() {
-        if(Math.abs((player.currentTime()-soundEffect.currentTime)<0.03 && Math.abs(player.currentTime()-soundEffect.currentTime)!=0) || player.paused()){
+        if(Math.abs((player.currentTime()-soundEffect.currentTime)<0.06 && Math.abs(player.currentTime()-soundEffect.currentTime)!=0) || player.paused()){
             player.removeClass("vjs-seeking");
         }
     },40);
@@ -604,7 +604,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     }, SPATIALIZATION_UPDATE_MS);
 
     setInterval(function() {
-        if(Math.abs((player.currentTime()-audioPlayer.getVideoElement().currentTime)<0.03 && Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)!=0) || player.paused()){
+        if(Math.abs((player.currentTime()-audioPlayer.getVideoElement().currentTime)<0.06 && Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)!=0) || player.paused()){
             player.removeClass("vjs-seeking");
         }
     },40);
