@@ -329,7 +329,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 soundEffect.currentTime = soundEffect.currentTime+delay2+0.1;
                 player.play();
                 player.addClass("vjs-seeking");
-                synccounter = synccounter + 1;
+                synccounter = 0;
                 //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
             };
             work();
