@@ -312,7 +312,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function() {
         delay = player.currentTime()-soundEffect.currentTime;
         if(synccounter < 10){
-            if((!isSync && player.currentTime() > 0 || Math.abs(player.currentTime()-soundEffect.currentTime)>0.07) && player.readyState() == 4){
+            if((!isSync && player.currentTime() > 0 || Math.abs(player.currentTime()-soundEffect.currentTime)>0.07) && player.readyState() == 4 && soundEffect.readyState == 4){
                 player.addClass("vjs-seeking");
                 soundEffect.currentTime = soundEffect.currentTime+delay;
                 console.log('Sync!');
