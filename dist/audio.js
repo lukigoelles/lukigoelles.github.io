@@ -242,6 +242,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
+        context.resume();
         player.controls(true);
         if(select.selectedIndex == 1){
             rotator.out.disconnect();
@@ -504,6 +505,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
+        context.resume();
         player.controls(true);
         if(select.selectedIndex == 2){
             rotator.out.disconnect();
@@ -552,9 +554,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("pause", function () {
         audioPlayer.pause();
-        update = false;
+        //update = false;
         synccounter = 0;
-        isSync = false;
+        //isSync = false;
     });
 
     player.on("seeked", function () {
@@ -621,7 +623,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 player.play();
                 isSync = true;
                 player.addClass("vjs-seeking");
-                synccounter = synccounter + 1;
+                synccounter = 11;
                 //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
             };
             work();
