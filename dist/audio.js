@@ -272,25 +272,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("seeked", function () {
         // soundEffect.currentTime = this.currentTime();
-        player.addClass("vjs-seeking");
-        let work = async () => {
-            await sleep(10);
-            waiting = true;
-            player.pause();
-            soundEffect.pause();
-            await sleep(1000);
-            let time = player.currentTime();
-            soundEffect.currentTime = time;
-            //player.currentTime(audioPlayer.getVideoElement().currentTime);
-            player.removeClass("vjs-seeking");
-            waiting = false;
-            audioElementsObjects.play();
-            player.play();
-            //
-            synccounter = 0;
-            isSync = false;
-            }
-        work();
+        update = false;
     });
 
 
@@ -322,7 +304,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         }
 
         let currentTime = player.currentTime();
-        if(currentTime > 0 && !update){
+        if(currentTime > 0 && !update && !player.paused()){
             let work = async () => {
                 await sleep(10);
                 waiting = true;
@@ -334,8 +316,8 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 //player.currentTime(audioPlayer.getVideoElement().currentTime);
                 player.removeClass("vjs-seeking");
                 waiting = false;
+                audioElementsObjects.play();
                 player.play();
-                //audioElementsObjects.play();
                 synccounter = 0;
                 isSync = true;
                 }
