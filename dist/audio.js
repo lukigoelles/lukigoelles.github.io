@@ -319,7 +319,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
                 //player.currentTime(audioPlayer.getVideoElement().currentTime);
                 player.removeClass("vjs-seeking");
                 waiting = false;
-                soundEffect.play();
+                audioElementsObjects.play();
                 player.play();
                 synccounter = 0;
                 isSync = true;
