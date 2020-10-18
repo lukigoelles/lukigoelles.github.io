@@ -259,9 +259,6 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var holdonplay = false;
     player.on("play", function () {
         console.log("Play");
-        if (!update){
-            update = false;
-        }
         soundEffect.play();
     });
 
@@ -565,7 +562,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         audioPlayer.pause();
         update = false;
         synccounter = 0;
-        isSync = false;
+        //isSync = false;
     });
 
     player.on("seeked", function () {
@@ -614,7 +611,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function() {
         delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
         if(synccounter < 10){
-            if((!isSync && player.currentTime() > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && player.readyState() == 4){
+            if((player.currentTime() > 0 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && player.readyState() == 4){
                 player.addClass("vjs-seeking");
                 audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay;
                 console.log('Sync!');
