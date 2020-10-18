@@ -63,7 +63,6 @@ console.log(videoToLoad);
 document.getElementById('videojs-panorama-player').setAttribute('poster','./assets/' + videoToLoad + '.jpg');
 
 var player = window.player;
-player.controls(false);
 var volumeMaster = player.volume();
 player.src('./assets/' + videoToLoad + '.mp4');
 this.audioElement = new Audio();
@@ -239,6 +238,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     //     this.masterGain.connect(this.context.destination);
 
     // }
+    player.controls(false);
 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
@@ -426,7 +426,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             this.gain[row][col].connect(this.filter[row]).connect(Decoder.out, 0, row);
         }
     }
-
+    player.controls(false);
     if(maxChannel >= 6){
         let select = document.getElementById("Decoder");
         var option = document.createElement('option');
