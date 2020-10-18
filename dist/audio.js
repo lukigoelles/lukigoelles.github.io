@@ -63,6 +63,7 @@ console.log(videoToLoad);
 document.getElementById('videojs-panorama-player').setAttribute('poster','./assets/' + videoToLoad + '.jpg');
 
 var player = window.player;
+player.controls(false);
 var volumeMaster = player.volume();
 player.src('./assets/' + videoToLoad + '.mp4');
 this.audioElement = new Audio();
@@ -241,6 +242,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
+        player.controls(true);
         if(select.selectedIndex == 1){
             rotator.out.disconnect();
             Decoder.out.disconnect();
@@ -502,6 +504,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     var select = document.getElementById("Decoder");
     select.onchange = function(){
+        player.controls(true);
         if(select.selectedIndex == 1){
             rotator.out.disconnect();
             if (typeof Decoder2 != "undefined") {
