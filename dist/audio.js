@@ -284,8 +284,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             //player.currentTime(audioPlayer.getVideoElement().currentTime);
             player.removeClass("vjs-seeking");
             waiting = false;
+            audioElementsObjects.play();
             player.play();
-            //audioElementsObjects.play();
+            //
             synccounter = 0;
             isSync = false;
             }
