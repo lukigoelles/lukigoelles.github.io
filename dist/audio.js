@@ -78,6 +78,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 }
 
  if (normalAudio) {
+     player.addClass('vjs-seeking');
      console.log('Here');
     var soundEffect = new Audio();
     soundEffect.src = './assets/' + videoToLoad + '.flac';
@@ -97,7 +98,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
       }
 
     var allAudio = true;
-    //soundEffect.load();
+    soundEffect.load();
     //soundEffect2.load();
     // soundEffect2.src = './assets/' + videoToLoad + '90.mp3';
     // const audio1 = new Audio();
@@ -301,6 +302,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     });
 
     setInterval(function () {
+        if(soundEffect.readyState == 4){
+            player.removeClass('vjs-seeking');
+        }
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
         rotator.updateRotMtx();
