@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>SoundAround Video Player</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+		<!-- Video.js 5 -->
+		<link href="videojs/v5/video-js.min.css" rel="stylesheet">
+		<script src="https://vjs.zencdn.net/5.4.6/video.min.js"></script>
+		<script src="https://threejs.org/build/three.min.js"></script>
+		<script src="./dist/dash.min.js"></script>
+		<!-- Common -->
+		<link href="dist/videojs-panorama.min.css" rel="stylesheet">
+		<!-- Video.js 5 -->
+		<script src="dist/videojs-panorama.v5.js"></script>
+		<script type="text/javascript" src="./dist/ambisonics.min.js"></script>
+		<style>
+			.player_wrapper {
+			  position: relative;
+			  max-width: 960px;
+			  width: 100%;
+			}
+		
+			body.vjs-full-window .player_wrapper {
+			  position: static;
+			}
+		
+			.player_container {
+			  padding-top: 56.25%;
+			}
+		
+			#videojs-panorama-player {
+			  position: absolute;
+			  width: 100%;
+			  height: 100%;
+			  top: 0;
+			  left: 0;
+			}
+		#overlay {
+		  position: fixed;
+		  display: none;
+		  width: 100%;
+		  height: 100%;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: rgba(0,0,0,0.5);
+		  z-index: 2;
+		  cursor: pointer;
+		}
+		
+		#text{
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  font-size: 30px;
+		  color: white;
+		  transform: translate(-50%,-50%);
+		  -ms-transform: translate(-50%,-50%);
+		}
+		  </style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a class="logo" href="index.html">SoundAround Video Player</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="elements.html">Elements</a></li>
+					<li><a href="generic.html">Generic</a></li>
+				</ul>
+			</nav>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<h1>SoundAround video player</h1>
+					<p>An interactive immersive video player</p>
+				</div>
+			</section>
+
+		<!-- Highlights -->
+		<section class="main-content">
+			<a href="https://./?video=Rania">Feeling Good</a> 
+			<a href="https://./?video=Rania2">Jailhouse Rock</a> 
+		  </section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<div class="content">
+						<section>
+							<h3></h3>
+							<p></p>
+						</section>
+						<section>
+							<h4></h4>
+							<ul class="alt">
+							</ul>
+						</section>
+						<section>
+							<h4></h4>
+							<ul class="plain">
+							</ul>
+						</section>
+					</div>
+					<div class="copyright">
+						&copy; <a href="mailto:goelles.lukas@gmail.com">Lukas Gölles, BSc</a> - SoundAround - 2020 - </a>.
+					</div>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
