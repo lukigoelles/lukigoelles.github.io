@@ -259,9 +259,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     var holdonplay = false;
     player.on("play", function () {
         console.log("Play");
-        // if (!update){
-        //     update = false;
-        // }
+        if (!update){
+            update = false;
+        }
         soundEffect.play();
     });
 
