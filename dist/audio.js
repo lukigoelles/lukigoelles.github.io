@@ -267,17 +267,20 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             update = false;
         }
         soundEffect.play();
+        isSync = false;
     });
 
     player.on("pause", function () {
         soundEffect.pause();
-        
+        soundEffect.currentTime = this.currentTime();
+        isSync = true;
     });
 
     player.on("seeked", function () {
         // soundEffect.currentTime = this.currentTime();
         player.pause();
-        soundEffect.currentTime = player.currentTime();
+        soundEffect.currentTime = this.currentTime();
+        isSync = true;
     });
 
 
@@ -307,6 +310,11 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
              document.getElementById('overlay').style.display = "none";
              overlay = false;
          }
+        
+        if(!isSync && player.currentTime() > 0.1){
+            audioPlayer.getVideoElement().currentTime = player.currentTime();
+            isSync = true;
+        }
 
         // let currentTime = player.currentTime();
         // if(currentTime > 0 && !update && !player.paused()){
