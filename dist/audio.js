@@ -302,10 +302,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //     update = true;
         // }
         // delay = player.currentTime()-soundEffect.currentTime;
-        // if(soundEffect.readyState == 4 && overlay) {
-        //     document.getElementById('overlay').style.display = "none";
-        //     overlay = false;
-        // }
+        if(soundEffect.readyState == 4 && overlay) {
+             document.getElementById('overlay').style.display = "none";
+             overlay = false;
+         }
 
         // let currentTime = player.currentTime();
         // if(currentTime > 0 && !update && !player.paused()){
