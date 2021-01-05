@@ -125,6 +125,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             //player.controls(false);
             loadaudio();
             allAudio = false;
+            context.resume();
             console.log('AudioContext playback resumed successfully');
         }
     };
