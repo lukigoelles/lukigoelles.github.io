@@ -573,11 +573,11 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //isSync = false;
     });
 
-    player.on("seeking", function () {
+    player.on("seeked", function () {
         //work();
         audioPlayer.pause();
         player.pause();
-        audioPlayer.getVideoElement().currentTime = player.currentTime();
+        //audioPlayer.getVideoElement().currentTime = player.currentTime();
         isSync = true;
         //movie.bigPlayButton.show();
 
