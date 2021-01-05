@@ -297,6 +297,9 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     setInterval(function () {
         if(soundEffect.readyState == 4){
             player.removeClass('vjs-seeking');
+        }else{
+            player.pause();
+            player.addClass('vjs-seeking');
         }
         rotator.yaw = -THETA * 180. / Math.PI +180;
         rotator.pitch = PHI * 180. / Math.PI -90;
@@ -315,10 +318,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
          }
         
         if(!isSync && player.currentTime() > 0.1){
-            audioPlayer.getVideoElement().currentTime = player.currentTime();
+            soundEffect.currentTime = player.currentTime();
             isSync = true;
         }
-        time1 = audioPlayer.getVideoElement().currentTime;
+        time1 = soundEffect.currentTime;
         if(Math.abs(time1-time2)>0.1){
             console.log('time difference greater 1');
             let work = async () => {
@@ -328,7 +331,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             work();
             
         }
-        time2 = audioPlayer.getVideoElement().currentTime;
+        time2 = soundEffect.currentTime;
 
         // let currentTime = player.currentTime();
         // if(currentTime > 0 && !update && !player.paused()){
