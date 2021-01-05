@@ -10,6 +10,8 @@ var synccounter = 0;
 var waiting = false;
 var isSync = false;
 var ispaused = true;
+var time1 = 0;
+var time2 = 0;
 
 window.onload = function () {
 
@@ -276,12 +278,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         isSync = true;
     });
 
-    player.on("seeked", function () {
-        // soundEffect.currentTime = this.currentTime();
-        player.pause();
-        soundEffect.currentTime = this.currentTime();
-        isSync = true;
-    });
+    // player.on("seeking", function () {
+    //     console.log("seekd");
+    //     // soundEffect.currentTime = this.currentTime();
+    //     player.pause();
+    //     soundEffect.currentTime = this.currentTime();
+    //     isSync = true;
+    // });
 
 
     player.on("volumechange", function () {
@@ -315,6 +318,17 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             audioPlayer.getVideoElement().currentTime = player.currentTime();
             isSync = true;
         }
+        time1 = audioPlayer.getVideoElement().currentTime;
+        if(Math.abs(time1-time2)>0.1){
+            console.log('time difference greater 1');
+            let work = async () => {
+                await sleep(100);
+                player.pause();
+            }
+            work()
+            
+        }
+        time2 = audioPlayer.getVideoElement().currentTime;
 
         // let currentTime = player.currentTime();
         // if(currentTime > 0 && !update && !player.paused()){
@@ -573,15 +587,20 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //isSync = false;
     });
 
-    player.on("seeked", function () {
-        //work();
-        audioPlayer.pause();
-        player.pause();
-        //audioPlayer.getVideoElement().currentTime = player.currentTime();
-        isSync = true;
-        //movie.bigPlayButton.show();
+    // player.on("seeked", function () {
+    //     //work();
+    //     console.log(!audioPlayer.isPaused())
+    //     if(!audioPlayer.isPaused()){
+    //         console.log('Timeupdate');
+    //         audioPlayer.pause();
+    //         player.pause();
+    //         //audioPlayer.getVideoElement().currentTime = player.currentTime();
+    //         isSync = true;
+    //         //movie.bigPlayButton.show();
+    //     }
+        
 
-    });
+    // });
     player.on("volumechange", function () {
         if (!masterGain)
             return;
@@ -606,6 +625,18 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             audioPlayer.getVideoElement().currentTime = player.currentTime();
             isSync = true;
         }
+        time1 = audioPlayer.getVideoElement().currentTime;
+        if(Math.abs(time1-time2)>0.1){
+            console.log('time difference greater 1');
+            let work = async () => {
+                await sleep(100);
+                player.pause();
+            }
+            work()
+            
+        }
+        time2 = audioPlayer.getVideoElement().currentTime;
+        
     },40);
 
     // setInterval(function() {
