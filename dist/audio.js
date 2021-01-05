@@ -275,7 +275,8 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("seeked", function () {
         // soundEffect.currentTime = this.currentTime();
-        update = false;
+        player.pause();
+        soundEffect.currentTime = player.currentTime();
     });
 
 
@@ -300,35 +301,35 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         //     console.log(soundEffect.readyState);
         //     update = true;
         // }
-        delay = player.currentTime()-soundEffect.currentTime;
-        if(soundEffect.readyState == 4 && overlay) {
-            document.getElementById('overlay').style.display = "none";
-            overlay = false;
-        }
+        // delay = player.currentTime()-soundEffect.currentTime;
+        // if(soundEffect.readyState == 4 && overlay) {
+        //     document.getElementById('overlay').style.display = "none";
+        //     overlay = false;
+        // }
 
-        let currentTime = player.currentTime();
-        if(currentTime > 0 && !update && !player.paused()){
-            let work = async () => {
-                await sleep(10);
-                waiting = true;
-                player.pause();
-                soundEffect.pause();
-                await sleep(1000);
-                let time = player.currentTime();
-                soundEffect.currentTime = time;
-                //player.currentTime(audioPlayer.getVideoElement().currentTime);
-                player.removeClass("vjs-seeking");
-                waiting = false;
-                audioElementsObjects.play();
-                player.play();
-                synccounter = 0;
-                isSync = true;
-                }
-            work();
-            //soundEffect.currentTime = player.currentTime()+0.1;
-            console.log('Update proceeded!');
-            update = true;
-        }
+        // let currentTime = player.currentTime();
+        // if(currentTime > 0 && !update && !player.paused()){
+        //     let work = async () => {
+        //         await sleep(10);
+        //         waiting = true;
+        //         player.pause();
+        //         soundEffect.pause();
+        //         await sleep(1000);
+        //         let time = player.currentTime();
+        //         soundEffect.currentTime = time;
+        //         //player.currentTime(audioPlayer.getVideoElement().currentTime);
+        //         player.removeClass("vjs-seeking");
+        //         waiting = false;
+        //         audioElementsObjects.play();
+        //         player.play();
+        //         synccounter = 0;
+        //         isSync = true;
+        //         }
+        //     work();
+        //     //soundEffect.currentTime = player.currentTime()+0.1;
+        //     console.log('Update proceeded!');
+        //     update = true;
+        // }
         
     }, SPATIALIZATION_UPDATE_MS);
 
@@ -554,12 +555,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
     player.on("pause", function () {
         audioPlayer.pause();
+        audioPlayer.getVideoElement().currentTime = player.currentTime();
         //update = false;
         synccounter = 0;
         //isSync = false;
     });
 
-    player.on("seeked", function () {
+    player.on("seeking", function () {
         player.addClass("vjs-seeking");
         let work = async () => {
             await sleep(10);
@@ -578,7 +580,12 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             synccounter = 0;
             isSync = false;
             }
-        work();
+        //work();
+        //audioPlayer.pause();
+        player.pause();
+        audioPlayer.getVideoElement().currentTime = player.currentTime();
+        //movie.bigPlayButton.show();
+
     });
     player.on("volumechange", function () {
         if (!masterGain)
@@ -602,33 +609,33 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
         }
     },40);
 
-    setInterval(function() {
-        delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
-        if(synccounter < 10){
-            if((!isSync && player.currentTime() > 0.1 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && player.readyState() == 4){
-                player.addClass("vjs-seeking");
-                audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay;
-                console.log('Sync!');
-                isSync = true;
-                synccounter = synccounter + 1;
-        }
-        }
-        else if (synccounter == 10) {
-            let work = async () => {
-                player.addClass("vjs-seeking");
-                let delay2 = player.currentTime()-audioPlayer.getVideoElement().currentTime;
-                player.pause();
-                await sleep(100);
-                audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay2+0.1;
-                player.play();
-                isSync = true;
-                player.addClass("vjs-seeking");
-                synccounter = 11;
-                //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
-            };
-            work();
-        }
-    }, 1);
+    // setInterval(function() {
+    //     delay = player.currentTime()-audioPlayer.getVideoElement().currentTime;
+    //     if(synccounter < 10){
+    //         if((!isSync && player.currentTime() > 0.1 || Math.abs(player.currentTime()-audioPlayer.getVideoElement().currentTime)>0.07) && player.readyState() == 4){
+    //             player.addClass("vjs-seeking");
+    //             audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay;
+    //             console.log('Sync!');
+    //             isSync = true;
+    //             synccounter = synccounter + 1;
+    //     }
+    //     }
+    //     else if (synccounter == 10) {
+    //         let work = async () => {
+    //             player.addClass("vjs-seeking");
+    //             let delay2 = player.currentTime()-audioPlayer.getVideoElement().currentTime;
+    //             player.pause();
+    //             await sleep(100);
+    //             audioPlayer.getVideoElement().currentTime = audioPlayer.getVideoElement().currentTime+delay2+0.1;
+    //             player.play();
+    //             isSync = true;
+    //             player.addClass("vjs-seeking");
+    //             synccounter = 11;
+    //             //document.getElementById("syncerror").innerHTML = "<span style='color: red;'>Error: Your Browser is not able to sync audio and video automatically. Please press pause and play!</span>";
+    //         };
+    //         work();
+    //     }
+    // }, 1);
 
     document.querySelector('button').addEventListener('click', function () {
         context.resume().then(() => {
