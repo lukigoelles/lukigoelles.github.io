@@ -574,26 +574,8 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     });
 
     player.on("seeking", function () {
-        player.addClass("vjs-seeking");
-        let work = async () => {
-            await sleep(10);
-            waiting = true;
-            player.pause();
-            audioPlayer.pause();
-            await sleep(1500);
-            let time = player.currentTime();
-            audioPlayer.getVideoElement().currentTime = time;
-            audioPlayer.play();
-            player.play();
-            //player.currentTime(audioPlayer.getVideoElement().currentTime);
-            player.removeClass("vjs-seeking");
-            waiting = false;
-            //
-            synccounter = 0;
-            isSync = false;
-            }
         //work();
-        //audioPlayer.pause();
+        audioPlayer.pause();
         player.pause();
         audioPlayer.getVideoElement().currentTime = player.currentTime();
         isSync = true;
