@@ -563,7 +563,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             Decoder.out.disconnect();
             rotator.out.connect(Decoder2.in);
             Decoder2.out.connect(Master);
-            masterGain.gain.value = player.volume()*5;
+            masterGain.gain.value = player.volume()*4;
         }
     };
     
@@ -616,7 +616,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             masterGain.gain.value = 0;
         else{
             if (select.selectedIndex == 3){
-                masterGain.gain.value = this.volume()*5;
+                masterGain.gain.value = this.volume()*4;
             } else {
                 masterGain.gain.value = this.volume();
             }
