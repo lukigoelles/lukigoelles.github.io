@@ -12,6 +12,7 @@ var isSync = false;
 var ispaused = true;
 var time1 = 0;
 var time2 = 0;
+var SurroundGainNodes = [];
 
 window.onload = function () {
 
@@ -610,8 +611,13 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
         if (this.muted())
             masterGain.gain.value = 0;
-        else
-            masterGain.gain.value = this.volume();
+        else{
+            if (select.selectedIndex == 3){
+                masterGain.gain.value = this.volume()*3;
+            } else {
+                masterGain.gain.value = this.volume();
+            }
+        }
     });
 
     setInterval(function () {
