@@ -545,7 +545,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
 
             rotator.out.connect(binauralDecoder.in);
             binauralDecoder.out.connect(Master);
-            masterGain.gain.value = this.volume();
+            masterGain.gain.value = player.volume();
         }else if(select.selectedIndex == 1){
             rotator.out.disconnect();
             Decoder.out.disconnect();
@@ -556,14 +556,14 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             
             rotator.out.connect(Decoder.in);
             Decoder.out.connect(Master);
-            masterGain.gain.value = this.volume();
+            masterGain.gain.value = player.volume();
         }else if(select.selectedIndex == 3){
             context.destination.channelCount = 6;
             rotator.out.disconnect();
             Decoder.out.disconnect();
             rotator.out.connect(Decoder2.in);
             Decoder2.out.connect(Master);
-            masterGain.gain.value = this.volume()*5;
+            masterGain.gain.value = player.volume()*5;
         }
     };
     
