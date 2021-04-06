@@ -324,7 +324,7 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
             isSync = true;
         }
         time1 = soundEffect.currentTime;
-        if(Math.abs(time1-time2)>0.1){
+        if(Math.abs(time1-time2)>1){
             console.log('time difference greater 1');
             let work = async () => {
                 await sleep(100);
