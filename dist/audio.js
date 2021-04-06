@@ -89,9 +89,10 @@ if (isMobile() && this.audioElement.canPlayType('audio/ogg; codecs="opus"') === 
     this.context = new AudioContext;
     console.log(this.context);
     var context = this.context;
+    var touched = false;
     unlockAudioContext(this.context);
     function unlockAudioContext(audioCtx) {
-        if (context.state !== 'suspended') return;
+        //if (context.state !== 'suspended') return;
         const b = document.body;
         const events = ['touchstart','touchend', 'mousedown','keydown'];
         events.forEach(e => b.addEventListener(e, unlock, false));
